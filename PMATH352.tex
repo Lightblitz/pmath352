@@ -1,0 +1,2042 @@
+\documentclass[11pt]{article}
+\usepackage{package/mathnotesupdated} % Uses your updated style package
+\usepackage{hyperref}
+
+% Course & Document Information
+\title{\textbf{PMATH 352: Complex Analysis}\\ \Large Lecture Notes \& Course Summary}
+\author{\textbf{Justin Wei} \\ University of Waterloo}
+\date{Spring 2026}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{The Complex Number System}
+
+\begin{textquote}[D. Sarason, Complex Function Theory]
+  The complex number system, $\C$, possesses both an algebraic and a topological structure. In algebraic terms, $\C$ is a field... It is the field one obtains by adjoining to $\R$, the field of real numbers, a square root of -1...
+\end{textquote}
+
+We will define $\C$ using basic set theory constructions and by imposing a structure suggested by the rules of addition and multiplication on $\R^2$. 
+
+\begin{definition}[Complex Field $\C$]
+The complex numbers $\C$ is $\R^2$, together with the operations:
+\begin{align*}
+(x_1, y_1) + (x_2, y_2) &= (x_1 + x_2, y_1 + y_2) \\
+(x_1, y_1) \cdot (x_2, y_2) &= (x_1 x_2 - y_1 y_2, x_1 y_2 + y_1 x_2)
+\end{align*}
+\end{definition}
+
+\begin{theorem}
+$\C$ is a field.
+\end{theorem}
+
+\begin{proof}[Proof / Recall of Field Properties]
+A field is an additive abelian group and multiplicative abelian group over non-zero elements along with distribution:
+% \begin{enumerate}[label=(\arabic*)]
+%     \item Additive group:
+%     \begin{itemize}
+%         \item Identity: $0 = (0,0)$.
+%         \item Inverse: $-(x,y) = (-x,-y)$.
+%     \end{itemize}
+%     \item Multiplicative group:
+%     \begin{itemize}
+%         \item Identity: $1 = (1,0)$.
+%         \item Inverse for $(x,y) \neq (0,0)$:
+%         \[
+%         (x,y)^{-1} = \left( \frac{x}{x^2+y^2}, \frac{-y}{x^2+y^2} \right)
+%         \]
+%         Verification:
+%         \[
+%         (x,y) \cdot \left( \frac{x}{x^2+y^2}, \frac{-y}{x^2+y^2} \right) = \left( \frac{x^2}{x^2+y^2} - \frac{-y^2}{x^2+y^2}, \frac{-xy}{x^2+y^2} + \frac{xy}{x^2+y^2} \right) = (1,0).
+%         \]
+%     \end{itemize}
+%     \item Associativity and Commutativity hold.
+% \end{enumerate}
+
+In $\C$, $0 = (0,0)$.
+\begin{itemize}
+    \item On $0 = (0,0)$ we show the identity property easily.
+    \item $-(x,y) = (-x,-y) \implies$ additive inverse.
+    \item $1 = (1,0) \implies$ multiplicative identity.
+    \item $(x,y)^{-1} = \left(\frac{x}{x^2+y^2}, \frac{-y}{x^2+y^2}\right) \implies$ multiplicative inverse on $\C\setminus\{0\}$:
+    \[
+    (x,y) \cdot \left(\frac{x}{x^2+y^2}, \frac{-y}{x^2+y^2}\right), \quad x^2+y^2 \neq 0 \text{ since } \C\setminus\{0\}
+    \]
+    \[
+    = \left(x\cdot \frac{x}{x^2+y^2} - \frac{-y^2}{x^2+y^2}, \frac{-xy}{x^2+y^2} + \frac{xy}{x^2+y^2}\right) = (1,0) \implies \text{multiplicative inverse found}.
+    \]
+\end{itemize}
+
+To show associativity on multiplication, consider
+\[
+\left\{ \begin{bmatrix} x & y \\ -y & x \end{bmatrix} : x,y \in \R \right\} \subset M_{2\times 2}(\R).
+\]
+\[
+\begin{bmatrix} x_1 & y_1 \\ -y_1 & x_1 \end{bmatrix}\begin{bmatrix} x_2 & y_2 \\ -y_2 & x_2 \end{bmatrix} = \begin{bmatrix} x_1x_2 - y_1y_2 & x_1y_2 + y_1x_2 \\ -y_1x_2-x_1y_2 & x_1x_2 - y_1y_2\end{bmatrix},
+\]
+which shows a homomorphism between $\C$ and $M_{2\times 2}(\R)_{\text{mult}}$. Since matrix multiplication is associative, so is complex multiplication.
+
+One can prove the remaining properties easily and is left as an exercise for the reader.
+\end{proof}
+
+\begin{exercise}
+    Complete the proof of the field axioms above (either directly or using group characterization).
+\end{exercise}
+
+\begin{remark}[Field Homomorphism $\R \hookrightarrow \C$]
+$f: \R \to \C$ defined as $f(x) = (x,0)$ is a field homomorphism. So for the rest of the course (notes), we will denote $f(\R)$ as $\R \le \C$, i.e.\ we identify $\R$ and thus $\R \subset \C$.
+\end{remark}
+
+\begin{remark}[Embedding of $\R$ and $i$]
+Notice $f(x) = (x,0)$ is a field isomorphism from $\R$ to $f(\R) \subset \C$.
+Let $i = (0,1)$. Then $i^2 = (0,1)\cdot (0,1) = (-1,0) = -1$.
+Also $(-i)^2 = (0,-1)^2 = (-1,0) = -1$.
+
+For any $z = (x,y) \in \C$, we write $z = x + iy$.
+\begin{itemize}
+    \item Call $x = \Re(z)$ the real part of $z$.
+    \item Call $y = \Im(z)$ the imaginary part of $z$.
+\end{itemize}
+Thus any $z = \Re(z) + \Im(z) \cdot i$.
+\end{remark}
+
+\begin{remark}[Matrix Representation]
+Consider the subset of $M_{2 \times 2}(\R)$ given by:
+\[
+\left\{ \begin{bmatrix} x & y \\ -y & x \end{bmatrix} : x, y \in \R \right\} \subset M_{2 \times 2}(\R)
+\]
+This space is isomorphic to $\C$. Addition and multiplication of matrices match complex operations:
+\[
+\begin{bmatrix} x_1 & y_1 \\ -y_1 & x_1 \end{bmatrix} + \begin{bmatrix} x_2 & y_2 \\ -y_2 & x_2 \end{bmatrix} = \begin{bmatrix} x_1+x_2 & y_1+y_2 \\ -(y_1+y_2) & x_1+x_2 \end{bmatrix}
+\]
+\[
+\begin{bmatrix} x_1 & y_1 \\ -y_1 & x_1 \end{bmatrix} \begin{bmatrix} x_2 & y_2 \\ -y_2 & x_2 \end{bmatrix} = \begin{bmatrix} x_1 x_2 - y_1 y_2 & x_1 y_2 + y_1 x_2 \\ -(x_1 y_2 + y_1 x_2) & x_1 x_2 - y_1 y_2 \end{bmatrix}
+\]
+Since matrix multiplication is associative, complex multiplication is associative.
+\end{remark}
+
+\subsection{The Complex Plane}
+Following the definitions outlined above, consider the tuple $z = (x,y)$. We call $x$ the ``real'' part of $z$; write $x = \Re(z)$. Call $y$ the ``imaginary'' part of $z$; write $y = \Im(z)$.
+
+\begin{definition}[$i$]
+$i = (0,1)$.
+\end{definition}
+We have any $z = \Re(z) + \Im(z)\cdot i$, and $i^2 = -1$, $(-i)^2 = (0,-1)^2 = -1$ (implicit $(-1,0)$ since we treat $x \in \R$ as $(x,0)$ in $\R^2$).
+
+\begin{definition}[Conjugation]
+For $z = x + iy \in \C$, define the conjugate $\overline{z} = x - iy$.
+Notice:
+\[
+\Re(z) = \frac{z + \overline{z}}{2}, \quad \Im(z) = \frac{z - \overline{z}}{2i}
+\]
+\[
+z\overline{z} = (x + iy)(x - iy) = x^2 + y^2 + i(yx - xy) = x^2 + y^2 = |z|^2
+\]
+\end{definition}
+
+\begin{definition}[Polar Coordinates]
+If $z = x + iy \in \C$, it has a polar representation $(x,y) \to (r,\theta)$ where:
+\[
+r = \sqrt{x^2+y^2} = |z|
+\]
+\[
+r \cos\theta = x, \quad r \sin\theta = y
+\]
+So $z = r\cos\theta + i r\sin\theta = r(\cos\theta + i\sin\theta)$.
+
+If $z_1, z_2$ have polar representations $z_1 = (r_1,\theta_1)$, $z_2 = (r_2,\theta_2)$, then
+\[
+z_1 z_2 = (r_1\cos\theta_1 + ir_1\sin\theta_1)(r_2\cos\theta_2 + ir_2\sin\theta_2) = r_1 r_2\big(\cos(\theta_1+\theta_2) + i\sin(\theta_1+\theta_2)\big),
+\]
+a nice geometric visualization of complex multiplication as scaling by $r = \sqrt{x^2+y^2}$ composed with a rotation. Also, using $z\overline{z} = r^2$: if $z = x+iy$, $\overline{z} = x-iy$, then $z\overline{z} = x^2+y^2+i(yx-xy) = r^2$.
+\end{definition}
+
+\begin{proposition}
+If $z_1 = r_1(\cos\theta_1 + i\sin\theta_1)$ and $z_2 = r_2(\cos\theta_2 + i\sin\theta_2)$, then:
+\begin{align*}
+z_1 z_2 &= r_1 r_2 \left( (\cos\theta_1 \cos\theta_2 - \sin\theta_1 \sin\theta_2) + i (\cos\theta_1 \sin\theta_2 + \sin\theta_1 \cos\theta_2) \right) \\
+&= r_1 r_2 \left( \cos(\theta_1 + \theta_2) + i \sin(\theta_1 + \theta_2) \right)
+\end{align*}
+% Complex multiplication scales moduli and adds arguments!
+\end{proposition}
+
+As mentioned in the introduction, we can translate all the topological properties of $\R^2$ onto $\C$. Some properties which will show up frequently are stated below as definitions. 
+% Important notions which are not mentioned below, but the reader should still be familiar with, are compactness and connectedness. In particular, we have path connected $\iff$ connected and compact $\iff$ closed and bounded (Heine-Borel) in $\C$. 
+
+\begin{definition}[Triangle Inequality]
+For any $z_1, z_2 \in \C$, $|z_1 + z_2| \le |z_1| + |z_2|$.
+\end{definition}
+
+\begin{definition}[Open Set]
+A set $G \subseteq \C$ is open if:
+\[
+\forall z \in G,\ \exists \varepsilon > 0 \text{ s.t.\ if } z_0 \in \C \text{ with } |z_0 - z| < \varepsilon, \text{ then } z_0 \in G.
+\]
+\end{definition}
+
+\begin{definition}[Limits of Sequences]
+If $\{z_n\}_{n=1}^\infty$ is a sequence of complex numbers, then $\lim_{n\to\infty} z_n = z$ if $\forall \varepsilon > 0\ \exists N \in \mathbb{N}$ s.t.\ for $n \ge N$, $|z-z_n| < \varepsilon$.
+\end{definition}
+
+\begin{definition}[Cauchy Sequence]
+$\{z_n\}_{n=1}^\infty$ is Cauchy if $\forall \varepsilon > 0,\ \exists N \in \mathbb{N}$ s.t.\ if $n,m \ge N$, then $|z_n - z_m| < \varepsilon$.
+\end{definition}
+
+If $z$ has polar representation $(r,\theta)$, we call $\theta$ \emph{an argument} of $z$ and write $\theta = \arg(z)$. This is not well-defined, so we think of $\arg$ as a multi-valued function.
+
+\begin{definition}[Argument and Principal Argument]
+If $z \in \C \setminus \{0\}$ has polar representation $(r,\theta)$, we call $\theta$ an argument of $z$, written $\theta \in \mathrm{arg}(z)$.
+This is multi-valued: $\mathrm{arg}(z) = \{ \theta_0 + 2k\pi : k \in \mathbb{Z} \}$.
+
+Notation: $\mathrm{Arg}(z) = \theta$ if $\theta \in (-\pi,\pi]$, which we call the \emph{principal value} (kind of like a representative).
+\begin{itemize}
+    \item $\mathrm{Arg}(1) = 0$
+    \item $\mathrm{Arg}(i) = \frac{\pi}{2}$
+    \item $\mathrm{Arg}(-1) = \pi$
+\end{itemize}
+\end{definition}
+
+\begin{example}
+$\arg(i) = \tfrac{\pi}{2}$, $\arg(-i) = \tfrac{3\pi}{2}, -\tfrac{\pi}{2}, \dots$
+\end{example}
+
+\begin{example}[Roots of Complex Numbers]
+To find $n$-th root of $z = r(\cos\theta + i\sin\theta)$:
+$w^n = z \implies w_k = r^{1/n} \left( \cos\left(\frac{\theta + 2k\pi}{n}\right) + i \sin\left(\frac{\theta + 2k\pi}{n}\right) \right)$ for $k = 0, 1, \dots, n-1$.
+
+Example for $\sqrt{i}$:
+$i = 1 \cdot (\cos\frac{\pi}{2} + i\sin\frac{\pi}{2})$.
+$\sqrt{i} = \cos\frac{\pi}{4} + i\sin\frac{\pi}{4} = \frac{1}{\sqrt{2}} + i \frac{1}{\sqrt{2}}$.
+Also $-\cos\frac{\pi}{4} - i\sin\frac{\pi}{4}$.
+
+\medskip
+Now for $i^{1/3} = \cos\frac{\pi}{6} + i\sin\frac{\pi}{6}$: since $\arg(i) = \{0, 2\pi, -2\pi, 4\pi, -4\pi, \dots\}$ and $i = \cos\theta + i\sin\theta$, so
+\[
+i^{1/3} = \cos\frac{2\pi}{6} + i\sin\frac{2\pi}{6} = \cos\frac{-3\pi}{6} + i\sin\frac{-3\pi}{6}.
+\]
+Back to $i^{1/4}$: $\arg(i) = \tfrac{\pi}{2}, \tfrac{5\pi}{2}, -\tfrac{3\pi}{2}, \dots$ and $\arg(i^{1/4}) = \tfrac{\pi}{8}, \tfrac{5\pi}{8}, -\tfrac{3\pi}{8}, \dots$
+\end{example}
+
+\begin{definition}[Limits and Sequences in $\C$]
+Let $(z_n)_{n=1}^\infty$ be a sequence of complex numbers.
+$\lim_{n \to \infty} z_n = z$ if $\forall \epsilon > 0$, $\exists N \in \mathbb{N}$ s.t. if $n \ge N$, $|z_n - z| < \epsilon$.
+$(z_n)$ is Cauchy if $\forall \epsilon > 0$, $\exists N \in \mathbb{N}$ s.t. if $n, m \ge N$, $|z_n - z_m| < \epsilon$.
+\end{definition}
+
+% \begin{theorem}[Fundamental Theorem of Algebra --- Preview]
+% If $P(z)$ is any polynomial of degree $n \ge 1$ over $\C$, then $P(z_0) = 0$ for some complex number $z_0$.
+% \end{theorem}
+
+\begin{proposition}
+    A set $G \subseteq \C$ is path connected if and only if it is connected
+\end{proposition}
+
+\begin{theorem}
+    [Heine-Borel]
+    A set $K \subseteq \C$ is compact if and only if it is closed and bounded.
+\end{theorem}
+
+\newpage
+\section{Calculus in $\C$}
+
+In this section we take a look at differentiation in $\C$ and how our definition of multiplication imposes structure (Cauchy Riemann equations) on differentiable functions. The rest of this section is structured similar to a standard calculus course on real numbers: we investigate elementary functions, look at convergence of functions, and then define power series along with their various properties. A notable absence in the section on power series is the root test. It was not covered in the Spring 2026 offering of the course, but the reader can derive the result using the tools in this chapter. Alternatively, Sarason's reference text discusses this result
+
+\subsection{Complex Differentiation}
+\begin{definition}[Complex Differentiability]
+Suppose $G \subset \C$ is open and $z_0 \in G$. A function $f: G \to \C$ has derivative $f'(z_0)$ at $z_0$ if
+\[
+f'(z_0) = \lim_{z \to z_0} \frac{f(z) - f(z_0)}{z - z_0} \quad \text{exists.}
+\]
+$\epsilon$-$\delta$ definition: $\forall \epsilon > 0$, $\exists \delta > 0$ s.t. if $0 < |z - z_0| < \delta$, then
+\[
+\left| \frac{f(z) - f(z_0)}{z - z_0} - f'(z_0) \right| < \epsilon.
+\]
+\end{definition}
+
+\begin{example}
+$f(z) = 1$. Claim: $f'(z) = 0$.
+
+\emph{Pf.} Fix $\varepsilon > 0$, take $\delta$ anything. If $0 < |z-z_0| < \delta$, then
+\[
+\left|0 - \frac{f(z)-f(z_0)}{z-z_0}\right| = \left|0 - \frac{1-1}{z-z_0}\right| = 0 < \varepsilon.
+\]
+\end{example}
+
+\begin{example}
+$f(z) = z$. Claim: $f'(z) = 1$.
+
+\emph{Pf.} Fix $\varepsilon > 0$, take $\delta$ anything. If $0 < |z-z_0| < \delta$, then
+\[
+\left|1 - \frac{f(z)-f(z_0)}{z-z_0}\right| = \left|1 - \frac{z-z_0}{z-z_0}\right| = 0 < \varepsilon.
+\]
+\end{example}
+
+\begin{example}
+$f(z) = z^2 \implies f'(z) = 2z$.
+\end{example}
+
+\begin{theorem}[Product Rule]
+If $f$ and $g$ are differentiable at $z_0$, so is $f\cdot g$, and
+\[
+(f\cdot g)'(z_0) = f'(z_0)g(z_0) + f(z_0)g'(z_0).
+\]
+\end{theorem}
+
+Applying the product rule inductively with $f(z)=z$: $f'(z) = z\cdot 1 + 1\cdot z = 2z$, matching the example above.
+
+\begin{remark}
+The derivative $f'(z_0)$ satisfies the property that if we consider the ``linear approximation at $z$'':
+\end{remark}
+
+\begin{theorem}[Linear Approximation Characterization]
+$f'(z_0)$ satisfies the property that if we consider the linear approximation at $z_0$:
+Let $R(z) = f(z) - f(z_0) - f'(z_0)(z - z_0)$, then $\lim_{z \to z_0} \frac{R(z)}{z - z_0} = 0$.
+\end{theorem}
+
+\begin{remark}[Real Differentiability]
+If $u:\R^2 \to \R$, then $u$ is differentiable at $(x_0,y_0)$ if there exist $a,b \in \R$ such that
+\[
+u(x,y) - u(x_0,y_0) - a(x-x_0) - b(y-y_0) = R(x,y)
+\]
+with
+\[
+\lim_{(x,y)\to(x_0,y_0)} \frac{R(x,y)}{\sqrt{(x-x_0)^2+(y-y_0)^2}} = 0.
+\]
+If $f: \C \to \C$, $f(z) = u(x,y) + iv(x,y)$ with $u,v: \C \to \R$: if $f$ is differentiable at $z_0 = x_0+iy_0$, let $f'(z_0) = a+ib$. Write
+\begin{align*}
+R(z) &= f(z) - f(z_0) - f'(z_0)(z-z_0) \\
+&= u(z) - u(z_0) + i(v(z)-v(z_0)) - (a+ib)((x-x_0)+i(y-y_0)) \\
+&= \big[u(z)-u(z_0) - a(x-x_0)+b(y-y_0)\big] + i\big[v(z)-v(z_0)-b(x-x_0)-a(y-y_0)\big] \\
+&=: R_1(z) + iR_2(z).
+\end{align*}
+Then $\lim_{z\to z_0}\dfrac{R(z)}{z-z_0} = 0 \implies \lim_{z\to z_0}\dfrac{R_1(z)}{z-z_0} = 0$ and $\lim_{z\to z_0}\dfrac{R_2(z)}{z-z_0} = 0$; so both $u,v$ are differentiable, and
+\[
+\frac{\partial u}{\partial x} = a, \qquad \frac{\partial v}{\partial x}(z_0) = b, \qquad \frac{\partial u}{\partial y}(z_0) = -b, \qquad \frac{\partial v}{\partial y}(z_0) = a.
+\]
+\end{remark}
+
+\begin{theorem}[Cauchy-Riemann Equations]
+Let $f(z) = u(x,y) + i v(x,y)$ where $z = x+iy$. $f$ is complex differentiable at $z_0 = x_0 + i y_0$ if and only if both $u, v: \R^2 \to \R$ are real-differentiable at $(x_0,y_0)$ and satisfy the Cauchy-Riemann equations:
+\[
+\frac{\partial u}{\partial x}(z_0) = \frac{\partial v}{\partial y}(z_0) \quad \text{and} \quad \frac{\partial u}{\partial y}(z_0) = -\frac{\partial v}{\partial x}(z_0).
+\]
+In this case, $f'(z_0) = \frac{\partial u}{\partial x}(z_0) + i \frac{\partial v}{\partial x}(z_0)$.
+\end{theorem}
+
+\begin{example}
+$f(z) = z^2 = (x+iy)^2 = x^2 - y^2 + i(2xy)$.
+$u = x^2 - y^2, v = 2xy$.
+$\frac{\partial u}{\partial x} = 2x = \frac{\partial v}{\partial y}$.
+$\frac{\partial u}{\partial y} = -2y = -\frac{\partial v}{\partial x}$.
+C-R equations hold everywhere! $f'(z) = 2x + i(2y) = 2z$.
+\end{example}
+
+\begin{example}
+$f(x+iy) = e^x(\cos y + i\sin y)$, so $u = e^x\cos y$, $v = e^x\sin y$. Then
+\[
+\frac{\partial u}{\partial x} = e^x\cos y, \qquad \frac{\partial v}{\partial x} = e^x\sin y, \qquad \frac{\partial u}{\partial y} = -e^x\sin y, \qquad \frac{\partial v}{\partial y} = e^x\cos y.
+\]
+
+\end{example}
+
+Given the similar properties of this example as the real exponential function, we define the following as the complex exponential.
+
+\begin{definition}[Complex Exponential]
+Define $\exp(x+iy) = e^x(\cos y + i \sin y)$.
+Let $u = e^x \cos y, v = e^x \sin y$.
+$\frac{\partial u}{\partial x} = e^x \cos y = \frac{\partial v}{\partial y}$,
+$\frac{\partial u}{\partial y} = -e^x \sin y = -\frac{\partial v}{\partial x}$.
+So $\exp(z)$ is entire and $\frac{d}{dz}\exp(z) = \exp(z)$.
+Euler's Formula: $e^{iy} = \cos y + i \sin y$. Note $e^{2\pi i} = 1$.
+\end{definition}
+
+\begin{definition}[Holomorphic / Entire]
+Let $G \subset \C$ be open.
+$f: G \to \C$ is holomorphic on $G$ if $f$ is complex differentiable at each point in $G$.
+$f$ is entire if it is holomorphic on all of $\C$.
+\end{definition}
+
+\begin{remark}
+    Some texts refer to holomorphic functions as analytic; however, analytic is technically a stronger condition than holomorphicity. We shall see later in the notes that holomorphic and analytic are equivalent in the complex plane, but it is not immediately obvious as of yet. Thus, we will use holomorphic as the terminology in these notes and refrain from calling a function ``analytic.'' Once we establish the equivalence, it immediately follows that an entire function is holomorphic and/or analytic on all of $\C$. 
+\end{remark}
+
+\begin{example}
+$f(z) = \dfrac{1}{z}$ is holomorphic on $\C\setminus\{0\}$.
+\end{example}
+
+\begin{example}[Linear Maps]
+$f(z) = b + az$. How to visualize? This map $f$ can be split into three parts:
+\[
+z \mapsto |a|z \mapsto \frac{a}{|a|}z \mapsto b+az,
+\]
+i.e.\ scaling by $|a|$, then rotation by $\arg(a)$, then translation by $b$.
+\end{example}
+
+\begin{remark}
+Any holomorphic function ``locally'' looks like a linear function (via the linear approximation characterization above).
+\end{remark}
+
+\subsection{The Complex Exponential and Logarithm}
+
+From our definition of the complex exponential, one can easily see that the exponent laws on the real exponential translate over to the complex version.
+\begin{proposition}
+    \[
+    \exp(z_1+z_2) = \exp(z_1)\exp(z_2)
+    \]
+\end{proposition}
+
+The famous formula from Euler also follows.
+
+\begin{proposition}
+    \[e^{2\pi i} = 1\]
+\end{proposition}
+
+Alternatively, one can derive the complex exponential from the power series representations of real-valued functions where we treat $i =\sqrt{-1}$. 
+
+\[
+e^{iy} = \sum_{n=0}^\infty \frac{(iy)^n}{n!} = \sum_{n \text{ even}} \frac{(iy)^n}{n!} + \sum_{n \text{ odd}} \frac{(iy)^n}{n!} = \sum_{k=0}^\infty \frac{(-1)^k y^{2k}}{(2k)!} + i\sum_{k=0}^\infty \frac{(-1)^k y^{2k+1}}{(2k+1)!} = \cos y + i \sin y.
+\]
+
+\begin{example}
+$f(z) = e^z$. The vertical line $\{x_0+iy : y \in \R\}$ maps to the ray from the origin at angle $y_0$ (through $e^{x_0+iy}$); the horizontal line $\{x+iy_0 : x \in \R\}$ maps to the circle of radius $e^{y_0}$ (as $x$ ranges over $\R$, actually to a circle traced as $y$ varies, and rays as $x$ varies). Concretely, vertical segments map to circles and horizontal lines map to rays from the origin under $f(z) = e^z$.
+\end{example}
+
+\begin{definition}
+    [Logarithm]
+    A number $\omega$ is a logarithm of $z$ if $e^\omega = z$. Note that the complex logarithm is not injective, unlike in $\R$. We see in the example below that due to Euler's formula, the logarithm can take on multiple values.
+\end{definition}
+
+\begin{example}
+$2\pi i \cdot k$, $k \in \mathbb{Z}$, are all logarithms of $1$. Thus to make the logarithm a function, we must somehow restrict its range. (see here for visualization of the range: \url{https://en.wikipedia.org/wiki/Complex_logarithm})
+\end{example}
+
+The range of the exponential function is $\C\setminus\{0\}$. So there is no logarithm of $0$. 
+
+\begin{definition}[Branch of Logarithm]
+Let $G \subset \C$ be an open connected set not containing $0$. A branch of logarithm on $G$ is a continuous function $l: G \to \C$ s.t.\ for all $z \in G$, $l(z)$ is a logarithm of $z$, i.e.\ $e^{l(z)} = z$ for all $z \in G$.
+
+\emph{Note:} A branch of logarithm may or may not exist depending on the shape of $G$.
+\end{definition}
+
+\begin{example}
+Set $l(z) = \ln|z| + i\,\mathrm{Arg}(z)$, on $G = \C\setminus(-\infty,0]$. Then
+\[
+e^{l(z)} = e^{\ln|z|}\big(\cos(\mathrm{Arg}(z)) + i\sin(\mathrm{Arg}(z))\big) = |z|\big(\cos(\mathrm{Arg}(z)) + i\sin(\mathrm{Arg}(z))\big) = z.
+\]
+\end{example}
+
+\begin{definition}[Principal Branch of Logarithm]
+Except above is called the \emph{principal branch} of $\log$, denoted by $\mathrm{Log}(z) := \ln|z| + i\,\mathrm{Arg}(z)$, on $G = \C\setminus(-\infty,0]$.
+\end{definition}
+
+\begin{example}
+$\mathrm{Log}(e^{i\theta}) = i\theta$ if $\theta \in (-\pi,\pi]$.
+\end{example}
+
+\begin{remark}
+If we set $l(x+iy) = \mathrm{Log}(x+iy) + i2\pi$, then $e^{l(z)} = e^{\mathrm{Log}(z)+2\pi i} = e^{\mathrm{Log}(z)}e^{2\pi i} = z$.
+In fact, if we define $l_k(z) = \mathrm{Log}(z) + i2\pi k$, $k \in \mathbb{Z}$, we get a branch of $\log$.
+\end{remark}
+
+\begin{remark}
+It is not possible to find a branch of $\log$ on $\C\setminus\{0\}$.
+\end{remark}
+
+\begin{theorem}
+If $l: G \to \C$ is a branch of logarithm, then $l$ is holomorphic and $l'(z) = 1/z$.
+\end{theorem}
+
+\begin{exercise}
+    Prove using a change of variables that if $f(z) = u(z)+iv(z)$, the Cauchy-Riemann equations in polar coordinates $(r,\theta)$ are
+    \[
+    r\frac{\partial u}{\partial r} = \frac{\partial v}{\partial \theta}, \qquad \frac{\partial u}{\partial \theta} = -r\frac{\partial v}{\partial r}.
+    \]
+\end{exercise}
+
+\begin{proof}
+Using the exercise, if $l$ is a branch of $\log$, write $l(z) = u(z) + iv(z)$ with $u(z) = \ln|z|$, $v(z) = \arg(z)$ (some fixed branch of argument). Then
+\[
+\frac{\partial u}{\partial r} = \frac{1}{r}, \quad \frac{\partial v}{\partial r} = 0, \quad \frac{\partial u}{\partial \theta} = 0, \quad \frac{\partial v}{\partial \theta} = 1,
+\]
+which satisfy the polar Cauchy-Riemann equations, so $l$ is holomorphic.
+Since $l$ holomorphic, $l'(z) = \frac{\partial u}{\partial r} + i\frac{\partial v}{\partial r} = \frac{\partial u}{\partial r}\cdot\frac{\partial r}{\partial x} + \frac{\partial u}{\partial \theta}\cdot \frac{\partial \theta}{\partial x} + i\left(\frac{\partial v}{\partial r}\cdot\frac{\partial r}{\partial x} + \frac{\partial v}{\partial \theta}\cdot\frac{\partial \theta}{\partial x}\right)$
+\[
+= \frac{1}{r}\cdot \frac{x}{r}\cdot\frac{1}{r} + i\left(\frac{-y}{r^2}\right) = \frac{x-iy}{r^2} = \frac{1}{x+iy} = \frac{1}{z}. \qedhere
+\]
+\end{proof}
+
+\begin{exercise}
+    Prove that there is no branch of log on $\C \setminus \{0\}$. 
+    
+    Hint: Prove by contradiction by considering a branch of log along the circle with radius $0<r<1$. How does the derivative contradict continuity?
+\end{exercise}
+
+The exercise above can also be proved using integration techniques in later sections.
+
+\begin{theorem}
+Suppose $f$ is a polynomial in variables $x$ and $y$. Then $f$ is holomorphic iff $f$ can be written as a polynomial in $z = x+iy$. E.g.\ $f(x,y) = x-iy$ is \emph{not} of this form.
+\end{theorem}
+
+\begin{proof}
+Write $f(x,y) = u(x,y) + iv(x,y)$. Then
+\[
+\frac{\partial f}{\partial x} = \frac{\partial u}{\partial x} + i\frac{\partial v}{\partial x}, \qquad \frac{\partial f}{\partial y} = \frac{\partial u}{\partial y} + i\frac{\partial v}{\partial y},
+\]
+and by Cauchy-Riemann, $i\frac{\partial f}{\partial x} = \frac{\partial f}{\partial y}$.
+
+Note: $\frac{\partial}{\partial x}(x^k y^j) = kx^{k-1}y^j$ and $\frac{\partial}{\partial y}(x^ky^j) = jx^ky^{j-1}$.
+So if $f(x,y) = \sum_{k=0}^K f_k(x,y)$, where $f_k$ is a term where the sum of the exponents is $k$, then $f$ satisfies C-R iff each $f_k$ does.
+So we can assume $f(x,y) = c_0x^n + c_1x^{n-1}y + \dots + c_ny^n$. Then
+\[
+i\frac{\partial f}{\partial x} = i(c_0nx^{n-1} + c_1(n-1)x^{n-2}y + \dots + c_{n-1}y^{n-1}) \overset{\text{by hyp.}}{=} \frac{\partial f}{\partial y} = c_1x^{n-1} + \dots + c_nny^{n-1}.
+\]
+Comparing coefficients: $c_1 = in\cdot c_0$, $2c_2 = i(n-1)c_1 \implies c_2 = i\frac{n-1}{2}c_1 = i^2\frac{n-1}{2}\binom{n}{2}c_0 = i^2\binom{n}{2}c_0$; continuing inductively, $c_3 = i\cdot\frac{n-2}{3}c_2 = i^3\binom{n}{3}c_0$, and in general $c_k = i^k\binom{n}{k}c_0$. So
+\[
+f(x,y) = c_0\left(x^n + i\binom{n}{1}x^{n-1}y + i^2\binom{n}{2}x^{n-2}y^2 + \dots + i^k\binom{n}{k}x^{n-k}y^k + \dots + i^ny^n\right) = c_0(x+iy)^n = c_0z^n. \qedhere
+\]
+\end{proof}
+
+\subsection{Series}
+
+\begin{definition}[Series]
+A series is a formal sum $\sum_{n=0}^\infty c_n$ where the terms $c_n \in \C$. Partial sums $S_N = \sum_{n=0}^N c_n \in \C$.
+\end{definition}
+
+\begin{definition}[Convergence of Series]
+The series converges to $S$ if the sequence of partial sums $\{S_N\}_{N=1}^\infty$ converges to $S$; write $S = \sum_{n=0}^\infty c_n$. If it does not converge, we say it diverges.
+\end{definition}
+
+\begin{lemma}
+If $\sum_{n=0}^\infty c_n$ converges, then $\lim_{n\to\infty} c_n = 0$.
+\end{lemma}
+\begin{proof}
+$\lim_{n\to\infty}(S_n - S_{n-1}) = 0 = \lim_{n\to\infty} c_n$.
+\end{proof}
+
+\begin{theorem}[Cauchy Criterion for Series]
+$\sum_{n=0}^\infty c_n$ converges if and only if its sequence of partial sums $S_N = \sum_{n=0}^N c_n$ is Cauchy.
+If $\sum |c_n|$ converges, then $\sum c_n$ converges (absolute convergence implies convergence).
+\end{theorem}
+
+\begin{definition}[Absolute Convergence]
+A series converges absolutely if $\sum_{n=0}^\infty |c_n| < \infty$.
+\end{definition}
+
+\begin{lemma}
+If $\sum_{n=0}^\infty c_n$ converges absolutely, then $\sum_{n=0}^\infty c_n$ is convergent.
+\end{lemma}
+\begin{proof}
+Suppose $N < M$. Then
+\[
+|S_M - S_N| = \left|\sum_{n=N+1}^M c_n\right| \le \sum_{n=N+1}^M |c_n| \le \sum_{n=N+1}^\infty |c_n| \to 0 \text{ as } N \to \infty.
+\]
+So $\{S_N\}_{N=1}^\infty$ is Cauchy. Since $\C$ is complete, $\{S_N\}$ converges $\implies$ series converges. Note $|S_N| \le \sum_{n=0}^N |c_n|$, so if $\sum_{n=0}^\infty |c_n|$ converges absolutely, then $\left|\sum_{n=0}^\infty c_n\right| \le \sum_{n=0}^\infty |c_n|$.
+\end{proof}
+
+\begin{example}[Geometric Series]
+$\sum_{n=0}^\infty z^n = \frac{1}{1-z}$ for $|z| < 1$. Diverges if $|z| \ge 1$.
+
+\emph{Proof.} This series converges iff $|c| < 1$. If so, i.e.\ $|c| < 1$, then $\sum_{n=0}^\infty c^n = \frac{1}{1-c}$: suppose $|c| < 1$, then $\left|\sum_{n=0}^\infty c^n\right| \le \sum_{n=0}^\infty |c^n| = \sum_{n=0}^\infty |c|^n = \frac{1}{1-|c|}$, so $\sum_{n=0}^\infty c^n$ converges.
+Fix $\varepsilon > 0$, find $N \in \mathbb{N}$ s.t.\ $n \ge N \implies \left|\sum_{k=0}^n c^k - \frac{1}{1-c}\right| < \varepsilon$. Since $(1-c)\sum_{k=0}^n c^k = 1-c^{n+1}$,
+\[
+\left|\frac{1-c^{n+1}}{1-c} - \frac{1}{1-c}\right| = \left|\frac{-c^{n+1}}{1-c}\right| = \frac{|c|^{n+1}}{|1-c|} \to 0 \text{ as } n \to \infty.
+\]
+
+\textbf{Claim:} if $|c| \ge 1$, diverges. \emph{Pf.} $|c^n| = |c|^n \not\to 0$, so by criterion for convergence we conclude the series diverges.
+\end{example}
+
+\subsection{Convergence of Sequences and Series of Functions}
+
+Suppose $(f_n)_{n=1}^\infty$ is a sequence of $G$-valued functions on $G \subset \C$ open.
+
+\begin{definition}[Pointwise Convergence]
+$f_n$ converges \emph{pointwise} to $f$ on $S \subset G$ if $\lim_{n\to\infty} f_n(z) = f(z)$ for all $z \in S$.
+\end{definition}
+
+\begin{definition}[Uniform Convergence]
+$f_n$ converges \emph{uniformly} to $f$ on $S$ if $\lim_{n\to\infty} \sup_{z\in S} |f_n(z)-f(z)| = 0$.
+\end{definition}
+
+\begin{definition}[Locally Uniform Convergence]
+$(f_n)_{n=1}^\infty$ converges \emph{locally uniformly} to $f$ on $G$ if for each $z \in G$, there exists $B(z,r)$ such that $(f_n)_{n=1}^\infty$ converges uniformly to $f$ on $B(z,r)$, $r>0$.
+\end{definition}
+
+\begin{example}
+$f_n(z) = z^n$, $G = \{z \in \C : |z| < 1\}$. Then $(f_n)_{n=0}^\infty$ converges locally uniformly to $0$ on $G$: if $r<1$, $|z|<r$, then $|f_n(z)-0| = |z|^n \le r^n \to 0$. So $(f_n)$ converges uniformly to $0$ on $\{z \in \C : |z| \le r\}$.
+\end{example}
+
+If $(f_n)_{n=0}^\infty$ is a sequence of functions, $\sum_{n=0}^\infty f_n(z)$ is the associated series of functions. The series converges to $f$ if the partial sums do.
+
+A series \emph{represents} a function $g: G \to \C$ if for each $z \in G$ the series $\sum_{n=1}^\infty f_n(z)$ converges to $g(z)$.
+
+\begin{example}
+$z_0 \in \C$ fixed. Consider $(f_n)_{n=0}^\infty$, $f_n(z) = a_n(z-z_0)^n$: we get the series $\sum_{n=0}^\infty a_n(z-z_0)^n$. This is the \emph{power series centered at $z_0$}.
+\end{example}
+
+\begin{proposition}[Region of Convergence]
+The region of convergence for a power series $\sum_{n=0}^\infty a_n(z-z_0)^n$ is of the form either
+\begin{enumerate}[label=(\alph*)]
+    \item $\{z_0\}$;
+    \item $\C$; or
+    \item the points in one disc centred at $z_0$ and possibly points on the boundary $\exists\, \{z \in \C : |z-z_0| < R\}$.
+\end{enumerate}
+We say $R$ is the \emph{radius of convergence}.
+\end{proposition}
+
+\begin{example}
+$\sum_{n=0}^\infty z^n$ has radius of convergence $1$. This represents the function $\frac{1}{1-z}$ on $\mathbb{D}$. The partial sums are $\sum_{n=0}^N z^n = \frac{1-z^{N+1}}{1-z}$; this converges locally uniformly to $\frac{1}{1-z}$.
+\end{example}
+
+\begin{proposition}[Comparison of Radii]
+If $\sum_{n=0}^\infty a_n(z-z_0)^n$ and $\sum_{n=0}^\infty b_n(z-z_0)^n$ are power series with radii of convergence $R_1, R_2$, then if $|b_n| \le M|a_n|$ for some $M \ge 0$, then $R_2 \ge R_1$.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+Follows from the proposition below by comparison: if $|z-z_0| < R$, where $R$ is the radius of convergence, then $\sum_{n=0}^\infty a_n(z-z_0)^n$ converges absolutely.
+\end{proof}
+
+\begin{proposition}
+If $|z-z_0| < R$ where $R$ is the radius of convergence, then $\sum_{n=0}^\infty a_n(z-z_0)^n$ converges absolutely.
+\end{proposition}
+\begin{proof}
+Assume $z_0 = 0$. Suppose $\sum_{n=0}^\infty a_n c^n$ converges for $z=c$. Set $e = |c|$. Take $z$ s.t.\ $|z| < e$. Since $\sum_{n=0}^\infty a_nc^n$ converges, $a_nc^n \to 0 \implies M := \max\{|a_nc^n|\} < \infty$.
+\[
+|a_nz^n| = \left|a_nc^n\cdot \frac{z^n}{c^n}\right| \le M\left|\frac{z}{c}\right|^n.
+\]
+Since $\sum M\left(\frac{|z|}{|c|}\right)^n$ converges absolutely if $|z| < e$, $\sum a_nz^n$ converges absolutely by comparison test.
+\end{proof}
+
+\subsection{Power Series and the Cauchy--Hadamard Theorem}
+
+\begin{theorem}[Cauchy-Hadamard Theorem]
+The radius of convergence $R$ for a power series $\sum_{n=0}^\infty a_n (z-z_0)^n$ is given by:
+\[
+\frac{1}{R} = \limsup_{n \to \infty} |a_n|^{1/n}.
+\]
+\begin{itemize}
+    \item If $|z - z_0| < R$, the series converges absolutely and locally uniformly.
+    \item If $|z - z_0| > R$, the series diverges.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+Let $R$ be the radius of convergence, and recall $\limsup_{n\to\infty} |a_n|^{1/n} := \lim_{N\to\infty}\sup_{n\ge N} |a_n|^{1/n}$.
+
+\textbf{Claim:} $R \ge \dfrac{1}{\limsup_n |a_n|^{1/n}}$.
+
+Assume $\limsup_n |a_n|^{1/n} < \infty$. Fix $\rho_0 > \limsup_n |a_n|^{1/n}$ so that $\frac{1}{e} < \frac{1}{\limsup |a_n|^{1/n}}$. Then $\rho_0$ is greater than all but finitely many $|a_n|^{1/n}$, so $|a_nz^n| \le \rho_0^n |z^n|$ for all but finitely many terms. So $\sum a_nz^n$ converges whenever $|z| < \frac{1}{\rho_0} \implies R \ge \frac{1}{\rho_0}$, hence $R \ge \dfrac{1}{\limsup_n |a_n|^{1/n}}$.
+
+\textbf{Claim:} $R \le \dfrac{1}{\limsup_n |a_n|^{1/n}}$.
+
+Suppose $\limsup_n |a_n|^{1/n} \ne 0$ and $\rho_0 < \limsup_n |a_n|^{1/n}$ with $\frac{1}{\rho_0} > \frac{1}{\limsup_k |a_n|^{1/n}}$. Then there are infinitely many terms s.t.\ $\rho_0 < |a_n|^{1/n}$, so $\left(\frac{1}{\rho_0}\right)^n |a_n| > 1$, so $\sum \left(\frac{1}{\rho_0}\right)^n a_n$ diverges. If $|z| > \frac{1}{\rho_0}$, then $\sum a_nz^n$ diverges, so $R \le \frac{1}{\rho_0}$.
+\end{proof}
+
+\begin{example}
+$\sum_{n=0}^\infty \dfrac{1}{n!}z^n$ has $R = \infty$. We have $f'(z) = f(z)$, $f(0)=1$, $f(z) = e^z$.
+\end{example}
+
+\subsection{Differentiation of Power Series}
+
+\begin{definition}[Formal Derivative of Power Series]
+$\left(\sum_{n=0}^\infty a_n(z-z_0)^n\right)' := \sum_{n=0}^\infty na_n(z-z_0)^{n-1}$.
+\end{definition}
+
+\begin{theorem}[Term-by-Term Differentiation]
+If $f(z) = \sum_{n=0}^\infty a_n (z-z_0)^n$ has radius of convergence $R > 0$, then $f(z)$ is holomorphic on $B(z_0, R)$ and:
+\[
+f'(z) = \sum_{n=1}^\infty n a_n (z-z_0)^{n-1}
+\]
+has the exact same radius of convergence $R$.
+\end{theorem}
+
+\begin{proof}
+We claim the radius of convergence of the RHS is $R$: this follows since
+\[
+\frac{1}{\limsup_{n\to\infty}|na_n|^{1/n}} = \frac{1}{\left(\lim_{n\to\infty} n^{1/n}\right)\left(\limsup_{n\to\infty}|a_n|^{1/n}\right)} = R \quad (\text{since } \lim n^{1/n}=1).
+\]
+
+\textbf{Proof of the derivative formula.} WLOG $z_0=0$. Let $f(z) = \sum_{n=0}^\infty a_nz^n$, $g(z) = \sum_{n=0}^\infty na_nz^{n-1}$. Want: $\lim_{z\to z_1} \dfrac{f(z)-f(z_1)}{z-z_1} = g(z_1)$ for $z_1$ in the radius of convergence. Compute
+\[
+\frac{f(z)-f(z_1)}{z-z_1} - g(z_1) = \sum_{n\ge 2} a_n\left(\frac{z^n-z_1^n}{z-z_1} - nz_1^{n-1}\right).
+\]
+Using $\dfrac{z^n-z_1^n}{z-z_1} = \sum_{k=0}^{n-1}z^{n-1-k}z_1^k$, one shows
+\[
+\frac{z^n-z_1^n}{z-z_1} - nz_1^{n-1} = \sum_{k=0}^{n-1}z_1^{n-1-k}(z^k-z_1^k) = \sum_{k=1}^{n-1}z_1^{n-1-k}(z-z_1)\sum_{j=0}^{k-1}z^{k-1-j}z_1^j = (z-z_1)\sum_{k=1}^{n-1}\sum_{j=0}^{k-1}z_1^{n-1-k+j}z^{k-1-j}.
+\]
+Take $\rho$ with $|z_1| < \rho < R$, and $|z-z_1|$ small enough that $|z| < \rho$: then $|(z)| \le C|z-z_1|\sum_{n\ge2} a_n\rho^{n-2}$, and since
+\[
+\left|\frac{z^n-z_1^n}{z-z_1}-nz_1^{n-1}\right| \le |z-z_1|\sum_{k=1}^{n-1}k\rho^{n-2} = |z-z_1|\rho^{n-2}\cdot \frac{(n-1)n}{2},
+\]
+we get
+\[
+|(*)| \le |z-z_1|\sum_{n\ge2}|a_n|\rho^{n-2}\frac{(n-1)n}{2} \to 0 \text{ as } z \to z_1 \text{ (finite, since } \rho<R\text{)}.
+\]
+So $g(z_1) = f'(z_1)$.
+\end{proof}
+
+\begin{corollary}
+If $f$ is represented by a power series, then the derivative of all orders exists.
+\end{corollary}
+
+\newpage
+\section{Complex Integration}
+
+Continuing with the discussion of calculus in $\C$, we define complex integration in this section. As contour integrals are likely new to readers of this text, and given the importance of integration in the rest of these notes, we are presenting complex integration separately from the other calculus tools. One should pay careful attention to the results in this section as they will be heavily leveraged in later sections.
+
+\begin{definition}[Piecewise-$C^1$ Path]
+A path $\gamma:[a,b] \to \C$ is piecewise-$C^1$ if $\gamma$ is differentiable at all but finitely many points, continuous everywhere, has continuous derivative where it is defined, and the derivative has one-sided limits at the points where it is not defined.
+\end{definition}
+If $\gamma$ differentiable, $\gamma'(t) = \Re(\gamma)'(t) + i\,\Im(\gamma)'(t)$.
+
+\begin{definition}[Contour Integral]
+Suppose $f: G \to \C$ is continuous on a subset that contains the image of a piecewise-$C^1$ path $\gamma:[a,b] \to \C$. Then
+\[
+\int_\gamma f(z) \, dz := \int_a^b f(\gamma(t)) \gamma'(t) \, dt.
+\]
+Property: $\left| \int_\gamma f(z) \, dz \right| \le \max_{t \in [a,b]} |f(\gamma(t))| \cdot L(\gamma)$.
+\end{definition}
+
+\begin{example}
+$f(z) = ie^x$, $\gamma:[a,b]\to\C$, $\gamma(t) = t$. Then $\int_\gamma f(z)\,dz = \int_a^b ie^t\cdot 1\,dt = i(e^b-e^a)$.
+\end{example}
+
+\begin{theorem}[FTC for Contour Integrals]
+If $\gamma:[a,b]\to\C$ is piecewise-$C^1$ and $f$ is holomorphic with continuous derivative $f'$ on an open set containing the range of $\gamma$, then:
+\[
+\int_\gamma f'(z) \, dz = f(\gamma(b)) - f(\gamma(a)).
+\]
+If $\gamma$ is closed, $\int_\gamma f'(z) \, dz = 0$.
+\end{theorem}
+
+\begin{proof}
+\[
+\int_\gamma f'(z)\,dz = \int_a^b f'(\gamma(t))\gamma'(t)\,dt = \int_a^b (f\circ\gamma)'(t)\,dt = (f\circ\gamma)(b) - (f\circ\gamma)(a),
+\]
+by the FTC on $\R$ applied to $\mathrm{Re}(f\circ\gamma)$, $\mathrm{Im}(f\circ\gamma)$.
+\end{proof}
+
+\begin{proposition}[Reparametrization Invariance]
+If $\gamma:[a,b]\to\C$ piecewise-$C^1$, $\rho:[c,d]\to[a,b]$ increasing piecewise-$C^1$, and $\gamma_1 = \gamma\circ\rho$, then $f$ continuous on the range of $\gamma$,
+\[
+\int_{\gamma_1} f(z)\,dz = \int_c^d f(\gamma(\rho(s)))\gamma'(\rho(s))\rho'(s)\,ds = \int_a^b f(\gamma(s))\gamma'(s)\,ds = \int_\gamma f(z)\,dz.
+\]
+\end{proposition}
+
+\begin{proposition}[Additivity]
+$\gamma:[a,b]\to\C$, $c \in [a,b]$, $\gamma_1 = \gamma|_{[a,c]}$, $\gamma_2 = \gamma|_{[c,b]}$. Then
+\[
+\int_{\gamma_1} f(z)\,dz + \int_{\gamma_2} f(z)\,dz = \int_\gamma f(z)\,dz.
+\]
+\end{proposition}
+
+\begin{proposition}[Reversal]
+If $-\gamma$ denotes the path in reverse, then $\int_{-\gamma} f(z)\,dz = -\int_\gamma f(z)\,dz$.
+\end{proposition}
+
+\begin{example}
+Let $\gamma(t) = z_0 + R e^{it}, t \in [0, 2\pi]$.
+For $n \in \Z$:
+\[
+\int_\gamma (z - z_0)^n \, dz = \begin{cases} 2\pi i & \text{if } n = -1 \\ 0 & \text{if } n \neq -1 \end{cases}
+\]
+For $n \neq -1$: let $\varphi(z) = \frac{(z-z_0)^{n+1}}{n+1}$, so by FTC $\int_\gamma \varphi'(z)\,dz = \varphi(\gamma(2\pi)) - \varphi(\gamma(0)) = 0$.
+For $n=-1$: $\gamma'(t) = iRe^{it}$, so $\int_\gamma \frac{1}{z-z_0}\,dz = \int_0^{2\pi} \frac{1}{Re^{it}}\,iRe^{it}\,dt = \int_0^{2\pi} i\,dt = 2\pi i$.
+\end{example}
+
+\begin{definition}[Arc Length]
+If $\gamma:[a,b]\to\C$ is piecewise-$C^1$, its length is $L(\gamma) = \int_a^b |\gamma'(t)|\,dt$.
+\end{definition}
+
+\begin{theorem}[$ML$ Inequality / Triangle Inequality]
+If $f$ continuous on $\gamma$:
+\[
+\left|\int_\gamma f(z)\,dz\right| \le L(\gamma)\cdot M_f,
+\]
+where $M_f$ is the maximum value of $|f\circ\gamma(t)|$, $t\in[a,b]$ (exists by EVT).
+\end{theorem}
+\begin{proof}
+\[
+\left|\int_\gamma f(z)\,dz\right| = \left|\int_a^b f(\gamma(t))\gamma'(t)\,dt\right| \le \int_a^b |f(\gamma(t))||\gamma'(t)|\,dt \le \int_a^b M_f|\gamma'(t)|\,dt = M_fL(\gamma). \qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Interchange of Limit and Integral]
+$\gamma:[a,b]\to\C$ piecewise-$C^1$. $(f_n)_{n=1}^\infty$ continuous on $\gamma$, and $f_n \to f$ uniformly on the range of $\gamma$. Then
+\[
+\int_\gamma f(z)\,dz = \lim_{n\to\infty} \int_\gamma f_n(z)\,dz.
+\]
+\end{theorem}
+\begin{proof}
+\[
+\left|\int_\gamma f(z)\,dz - \int_\gamma f_n(z)\,dz\right| \le \max_{t\in[a,b]} |f(\gamma(t))-f_n(\gamma(t))|\cdot L(\gamma) \to 0 \text{ as } n\to\infty,
+\]
+since $L(\gamma)$ is a constant.
+\end{proof}
+
+\begin{example}[Gaussian Integral]
+Consider $\int_{R\to\infty} e^{-z^2}\,dz$ around a rectangular contour with $\gamma_1(t) = t$, $t \in [-a,a]$, $\gamma_2(t) = a+it$, $\gamma_3(t) = -t+ib$ (top side, reversed), $\gamma_4(t) = -a+it$ (left side, reversed), with the integral over the whole closed rectangle equal to $0$ (Cauchy's theorem, since $e^{-z^2}$ entire). Let $I_1 = \int_{-a}^a e^{-t^2}\,dt \to \sqrt\pi$ as $a\to\infty$. The vertical sides $I_2,I_4$ satisfy $|I_2|,|I_4| \le be^{-a^2} \to 0$ as $a\to\infty$. The top side gives (with $\gamma_3(t) = t+ib$):
+\[
+-I_3 = \int_{-a}^a e^{-(t+ib)^2}\,dt = \int_{-a}^a e^{-t^2+b^2}e^{-2ibt}\,dt = e^{b^2}\int_{-a}^a e^{-t^2}\big(\cos(2bt) - i\sin(2bt)\big)\,dt.
+\]
+Since $0 = \sum_j I_j$, we get $\sqrt\pi = I_1 = I_3 = e^{b^2}\int_{-\infty}^\infty e^{-t^2}\cos(2bt)\,dt$.
+
+Alternate normalization: set $g(z) = \sum_{n=0}^\infty \frac{(-1)^nz^{2n+1}}{(2n+1)n!}$; then $\int_{R\to\infty} g'(z)\,dz = 0$ by FTC, giving $\sum_j \int_{\gamma_j} e^{-z^2}\,dz = I_a$.
+\end{example}
+
+\newpage
+\section{Cauchy's Theorem and its Consequences}
+
+We will see in this section the beautiful structure the Cauchy-Riemann equations impose on $\C$. We will begin with some specific versions of Cauchy's Theorem which allow us to evaluate integrals very quickly and then discuss some corollaries / consequences that arise; a more general version of Cauchy's Theorem will be proved later in the course once we have more machinery.
+
+\begin{theorem}[Goursat's Lemma / Cauchy's Theorem for a Triangle]
+Let $T$ be a closed triangle in an open set $G \subset \C$. If $f: G \to \C$ is holomorphic, then:
+\[
+\int_{\partial T} f(z) \, dz = 0.
+\]
+\end{theorem}
+
+\begin{proof}
+Set $I = \int_{\partial T} f(z)\,dz$. Split $T$ into four sub-triangles $T_{11},T_{12},T_{13},T_{14}$ (edge midpoints, opposite orientation for the middle triangle). Then
+\[
+I = \sum_{j=1}^4 \int_{\partial T_{1j}} f(z)\,dz,
+\]
+so by the triangle inequality $\exists j$ s.t.\ $\left|\int_{\partial T_{1j}} f(z)\,dz\right| \ge \frac{1}{4}|I|$. Call this $T_1$. Continue to choose $T_n$ such that $\left|\int_{\partial T_n} f(z)\,dz\right| \ge \left(\frac{1}{4}\right)^n |I|$, with $\mathrm{diam}(T_n) \to 0$.
+
+If $S_n$ denotes the triangle $T_n$ together with its interior, then $\bigcap_{n\ge1} S_n = \{z_0\}$.
+
+$f$ is holomorphic at $z_0$: $f(z) = f(z_0) + f'(z_0)(z-z_0) + R(z)$, where $\lim_{z\to z_0}\frac{R(z)}{z-z_0}=0$. Then
+\[
+\int_{T_n} f(z)\,dz = \int_{T_n}\big(f(z_0) + f'(z_0)(z-z_0)+R(z)\big)\,dz = \int_{T_n} R(z)\,dz \quad (\text{first two terms integrate to } 0 \text{ by FTC}).
+\]
+So $|I| \le 4^n\left|\int_{T_n} R(z)\,dz\right|$. Let $\varepsilon_n$ be the maximum value of $\left|\frac{R(z)}{z-z_0}\right|$ on the triangle $T_n$; note $\varepsilon_n \to 0$ as $n\to\infty$. On $T_n$, $|R(z)| \le \varepsilon_n|z-z_0| \le \varepsilon_n \mathrm{diam}(T_n) = \varepsilon_n\cdot 2^{-n}\mathrm{diam}(T)$. So
+\[
+|I| \le 4^n\left|\int_{T_n} R(z)\,dz\right| \le 4^n\varepsilon_n2^{-n}\mathrm{diam}(T)L(T_n) \le 4^n\varepsilon_n2^{-n}2^{-n}\mathrm{diam}(T)L(T) = \varepsilon_nL(T)\mathrm{diam}(T) \to 0 \text{ as } n\to\infty. \qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Cauchy's Theorem for Convex Domains]
+If $G$ is open and convex, and $f: G \to \C$ is holomorphic, then $\int_\gamma f(z) \, dz = 0$ for any closed path $\gamma$ in $G$.
+\end{theorem}
+
+\begin{proof}
+Note if $f(z)=g'(z)$ for $g$ holomorphic in $G$, the result follows from the FTC.
+Fix $z_0\in G$. Define $g(z) = \int_{[z_0,z]} f(\zeta)\,d\zeta$.
+\[
+g(z)-g(z_1) = \int_{[z_0,z]} f(\zeta)\,d\zeta - \int_{[z_0,z_1]} f(\zeta)\,d\zeta.
+\]
+By Cauchy's theorem for the triangle (applied to $z_0,z_1,z$): $\int_{[z_0,z]}f(\zeta)\,d\zeta + \int_{[z,z_1]}f(\zeta)\,d\zeta + \int_{[z_1,z_0]}f(\zeta)\,d\zeta = 0$, so
+\[
+\frac{g(z)-g(z_1)}{z-z_1} = \frac{1}{z-z_1}\int_{[z_1,z]}f(\zeta)\,d\zeta.
+\]
+\emph{Note:} $\int_{[z_1,z]}f(\zeta)\,d\zeta - (z-z_1)f(z_1) = \int_{[z_1,z]}(f(\zeta)-f(z_1))\,d\zeta \le \frac{1}{|z-z_1|}M|z-z_1|$, where $M$ is the max of $|f(\zeta)-f(z_1)|$ for $\zeta$ on the curve $[z_1,z]$. By continuity at $z_1$, $\forall \varepsilon>0\ \exists \delta>0$ s.t.\ $|\zeta-z_1|<\delta \implies |f(\zeta)-f(z_1)|<\varepsilon$. So $\lim_{z\to z_1}\frac{g(z)-g(z_1)}{z-z_1}=f(z_1)$, i.e.\ $g'=f$ on $G$, so $g$ holomorphic and by FTC the closed-path integral vanishes.
+\end{proof}
+
+\begin{theorem}[Cauchy's Theorem for the Circle]
+Suppose $C$ is a circle oriented CCW and $f$ is holomorphic in a region that contains $C$ and its interior, necessarily. If $z$ is in the interior of $C$, then \textup{(Cauchy's Formula for the Circle)}
+\[
+f(z) = \frac{1}{2\pi i} \int_C \frac{f(\zeta)}{\zeta - z} \, d\zeta.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix $z_0$ in the interior of the circle. Let $R = d(z_0,C)$, take $0<r<R$, and let $C_r$ denote the circle oriented CCW, centre $z_0$, radius $r$. By Cauchy's theorem for convex regions,
+\[
+\frac{1}{2\pi i}\int_{C_1} \frac{f(\zeta)}{\zeta-z_0}\,d\zeta + \frac{1}{2\pi i}\int_{C_2} \frac{f(\zeta)}{\zeta-z_0}\,d\zeta + \frac{1}{2\pi i}\int_{-\gamma} \frac{f(\zeta)}{\zeta-z_0}\,d\zeta = 0 \implies \frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z_0}\,d\zeta = \frac{1}{2\pi i}\int_{C_r}\frac{f(\zeta)}{\zeta-z_0}\,d\zeta.
+\]
+Now show $\varphi := \frac{1}{2\pi i}\int_{C_r}\frac{f(\zeta)}{\zeta-z_0}\,d\zeta$: we have
+\[
+\left|\frac{1}{2\pi i}\int_{C_r}\frac{f(\zeta)-f(z_0)}{\zeta-z_0}\,d\zeta\right| \le M_r\cdot r,
+\]
+where $M_r$ is the max value of $\left|\frac{f(\zeta)-f(z_0)}{\zeta-z_0}\right|$ for $\zeta$ on $C_r$; as $\zeta \to z_0 \implies (*) \to f'(z_0)$. Bounding, since $\int_{C_r}\frac{1}{\zeta-z_0}\,d\zeta = 2\pi i$, we get $\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z_0}\,d\zeta = \frac{1}{2\pi i}\int_{C_r}\frac{f(z_0)}{\zeta-z_0}\,d\zeta + \varepsilon = f(z_0) + \varepsilon$, where $\varepsilon \to 0$ as $r \to 0$. So $\frac{1}{2\pi i}\int_C\frac{f(\zeta)}{\zeta-z_0}\,d\zeta = f(z_0)$.
+\end{proof}
+
+\begin{corollary}[Mean Value Property]
+Let $f$ be holomorphic in $\{z\in\C : |z-z_0|<R\}$. Take $r<R$, let $C_r$ denote the circle of radius $r$ centred at $z_0$ oriented CCW $\implies f(z_0) = \dfrac{1}{2\pi i}\int_{C_r} \dfrac{f(\zeta)}{\zeta-z_0}\,d\zeta$.
+Parametrize $C_r$ as $\gamma(t) = z_0+re^{it}$, $t\in[0,2\pi]$, $\gamma'(t)=ire^{it}$:
+\[
+f(z_0) = \frac{1}{2\pi i}\int_0^{2\pi} \frac{f(z_0+re^{it})}{re^{it}}\,ire^{it}\,dt = \frac{1}{2\pi}\int_0^{2\pi} f(z_0+re^{it})\,dt.
+\]
+\end{corollary}
+
+\begin{definition}[Cauchy Integral of a Continuous Function]
+If $\varphi$ is a continuous function on the range of a piecewise-$C^1$ path $\gamma$, the Cauchy integral of $\varphi$ over $\gamma$ is the function
+\[
+z \mapsto \int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta, \qquad z \text{ not in the range of } \gamma.
+\]
+\end{definition}
+
+\subsection{Power Series Representation of Holomorphic Functions}
+
+Set $f(z) = \int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta$; we want to show $f$ has a power series representation. Fix $z_0$ not in the range of $\gamma$. Let $R = \mathrm{dist}(z_0,\mathrm{Range}(\gamma)) := \min_{\zeta\in\mathrm{Range}(\gamma)} |z_0-\zeta|$.
+
+Goal: $f(z) = \sum_{n=0}^\infty a_n(z-z_0)^n$.
+
+For $|z-z_0| < |\zeta-z_0|$ (i.e.\ $\zeta$ on the curve, $R$ the smallest positive number such that the range of the curve $\gamma$ is entirely contained in the disc of centre $z_0$ radius $R$):
+\[
+\frac{1}{\zeta-z} = \frac{1}{(\zeta-z_0)-(z-z_0)} = \frac{1}{\zeta-z_0}\left(\frac{1}{1-\frac{z-z_0}{\zeta-z_0}}\right) = \frac{1}{\zeta-z_0}\sum_{n=0}^\infty \left(\frac{z-z_0}{\zeta-z_0}\right)^n,
+\]
+converging locally uniformly (as a function of $\zeta$) when $\left|\frac{z-z_0}{\zeta-z_0}\right|<1$. So $\frac{\varphi(\zeta)}{\zeta-z} = \frac{\varphi(\zeta)}{\zeta-z_0}\sum_{n=0}^\infty \frac{(z-z_0)^n}{(\zeta-z_0)^n}$, and
+\[
+f(z) = \int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta = \sum_{n=0}^\infty \left(\int_\gamma \frac{\varphi(\zeta)(z-z_0)^n}{(\zeta-z_0)^{n+1}}\,d\zeta\right) = \sum_{n=0}^\infty a_n(z-z_0)^n, \qquad a_n = \int_\gamma \frac{\varphi(\zeta)}{(\zeta-z_0)^{n+1}}\,d\zeta,
+\]
+and this has radius of convergence at least $R$.
+
+\begin{theorem}
+Suppose $f$ is holomorphic on $\{z \in \C : |z-z_0| \le R\}$. Then choose $r<R$; represent
+\[
+f(z) = \int_{C_r} \frac{2\pi i\cdot f(\zeta)}{\zeta-z}\,d\zeta = \sum_{n=0}^\infty a_n(z-z_0)^n, \qquad a_n = \frac{1}{2\pi i}\int_{C_r} \frac{f(\zeta)}{(\zeta-z_0)^{n+1}}\,d\zeta.
+\]
+The radius of convergence for this power series is at least $r$.
+\end{theorem}
+
+\begin{remark}[Uniqueness of Coefficients]
+If $f(z) = \sum_{n\ge0} a_n(z-z_0)^n = \sum_{n\ge0} b_n(z-z_0)^n$, then $0 = \sum_{n\ge0}(a_n-b_n)(z-z_0)^n \implies (a_n-b_n)\cdot n! = h^{(n)}(z_0) = 0 \implies a_n=b_n$.
+\end{remark}
+
+\begin{corollary}
+If $f$ is holomorphic on $G$, then $f'$ is also holomorphic on $G$.
+\end{corollary}
+\begin{proof}
+$f$ is represented by a power series for $|z-z_0|<r$ for some fixed $z_0\in G$, so its derivative is also given by a power series (locally), hence holomorphic.
+\end{proof}
+
+\begin{example}
+$\dfrac{1}{1+x^2} = f(x) = \sum_{n=0}^\infty (-1)^nx^{2n}$, $R=1$. Consider $\sum_{n=0}^\infty a_n(x-1)^n = \rho(x)$. What is $\rho(\sqrt2)$? $\dfrac{1}{1+z^2}$ is holomorphic on $\C\setminus\{i,-i\}$, so the series centred at $1$, we have $|i-1|=\sqrt2$ or smth.
+\end{example}
+
+\begin{example}
+Suppose $\sum_{n\ge0} a_n(z-z_0)^n$ has radius of convergence $R_1$ and $\sum_{n\ge0} b_n(z-z_0)^n$ has radius of convergence $R_2$. Consider $\sum_{n\ge0}\left(\sum_{k=0}^n a_kb_{n-k}\right)(z-z_0)^n$. Then the radius of convergence of this is at least $\min\{R_1,R_2\}$, and if $f,g$ are the respective functions, then $h(z) = f(z)g(z)$ for $|z-z_0| < \min(R_1,R_2)$.
+\end{example}
+
+\begin{proof}[Sketch]
+Let $f,g$ be represented by the first two power series respectively. Define $h(z) = f(z)g(z)$ for $|z-z_0| < \min(R_1,R_2)$. $f$ is holomorphic on the disc $\{|z-z_0|<\min(R_1,R_2)\}$, so $h$ is represented by two power series in the disc.
+
+\emph{Note:} $h(z_0)=f(z_0)g(z_0)=a_0b_0$; $c_1 = h'(z_0) = f'(z_0)g(z_0)+g'(z_0)f(z_0) = a_1b_0+a_0b_1$. In general
+\[
+c_n = \frac{1}{n!}h^{(n)}(z_0) = \frac{1}{n!}\left(\sum_{k=0}^n \binom{n}{k} f^{(k)}(z_0)g^{(n-k)}(z_0)\right) = \frac{1}{n!}\left(\sum_{k=0}^n \binom{n}{k} k!a_k(n-k)!b_{n-k}\right) = \sum_{k=0}^n a_kb_{n-k}.
+\]
+\end{proof}
+
+\begin{theorem}[Converse of Goursat's Lemma / Morera's Theorem]
+If $f: G \to \C$ is a continuous function s.t.\ $\int_{\partial T} f(z)\,dz = 0$ for any triangle $T$ in $G$ with interior also in $G$, then $f$ is holomorphic.
+\end{theorem}
+\begin{proof}
+First note that by restricting to a small disc, WLOG any convex open set $G$ is a disc. Fix $z_0\in G$. If $z\in G$, define $g(z) = \int_{[z_0,z]} f(\zeta)\,d\zeta$. Then $g$ is holomorphic (refer to Cauchy's theorem for convex proof) and $g'(z)=f(z)$. Since $g$ is holomorphic, $g'$ is also holomorphic, i.e.\ $g'=f$ is holomorphic.
+\end{proof}
+
+\begin{theorem}[Liouville's Theorem]
+Any bounded entire function is constant.
+\end{theorem}
+\begin{proof}
+Fix $z_0\in\C$, let $r>0$, $C_r$ the circle of radius $r$ centre $z_0$, oriented CCW.
+\[
+f'(z_0) = \frac{1}{2\pi i}\int_{C_r} \frac{f(\zeta)}{(\zeta-z_0)^2}\,d\zeta \implies |f'(z_0)| \le \frac{1}{2\pi}\int_{C_r} \left|\frac{f(\zeta)}{(\zeta-z_0)^2}\right|\,d\zeta \le \frac{1}{2\pi}L(C_r)\sup_{\zeta\in C_r}\frac{|f(\zeta)|}{r^2} \le r\cdot\frac{M}{r^2} \to 0 \text{ as } r\to\infty.
+\]
+Then $f'(z)=0\ \forall z\in\C \implies f$ constant.
+\end{proof}
+
+\begin{theorem}[Fundamental Theorem of Algebra]
+If $P(z) = \sum_{k=0}^n a_kz^k$ is a polynomial with $a_k\in\C$, $a_n\ne0$, then $P$ factors as a product: $a_n(z-b_1)(z-b_2)\cdots(z-b_n)$.
+\end{theorem}
+
+\begin{proof}
+Suppose $n\ge1$. We just need to show $P(z)$ has a zero ($n=1$).
+Suppose not, i.e.\ $P$ has no zero. Set $f(z) = \dfrac{1}{P(z)}$; $f$ is entire since $P$ is entire and $P$ never $0$.
+\[
+f(z) = \frac{1}{a_nz^n\left(1+\frac{a_{n-1}}{a_n}\frac1z + \dots + \frac{a_0}{a_n}\frac{1}{z^n}\right)} \to 0 \text{ as } |z|\to\infty.
+\]
+So $|f(z)| \to 0$ as $|z|\to\infty$. Then $\exists r>0$ s.t.\ $|f(z)|\le1$ if $|z|>r$. $\{|f(z)| : |z|\le r\}$ has a max (compact + EVT). So $f$ is a bounded entire function $\implies$ $f$ constant by Liouville's, $\implies P=1/f$ also constant $\implies n=0$ --- contradiction. Every non-constant polynomial over $\C$ has at least one complex root; then divide out and induct to obtain the full factorization.
+\end{proof}
+
+\begin{example}
+$\int_\gamma \cos z\,dz$, where $\gamma$ is given by the picture: $\gamma_1(\theta)=e^{i\theta}$, $\theta\in[0,\pi]$ (upper semicircle from $1$ to $-1$), and $\gamma_2(\theta) = (1-\theta)\cdot1+\theta(2i)$, $\theta\in[0,1]$ (segment from $1$ to $2i$). Then $\int_\gamma \cos z\,dz = \int_{\gamma_1}\cos z\,dz + \int_{\gamma_2}\cos z\,dz$. Using FTC with $\dfrac{d}{dz}\sin z=\cos z$, and $\sin z = \dfrac{e^{iz}-e^{-iz}}{2i}$:
+\[
+\int_\gamma \cos z\,dz = \sin(2i) - \sin(-1).
+\]
+\end{example}
+
+\begin{example}
+$\int_\gamma \dfrac{3z-2}{z^2-z}\,dz$ for various $\gamma$: $\dfrac{3z-2}{z^2-z} = \dfrac{2}{z}+\dfrac{1}{z-1}$. If $\gamma$ encircles both singularities $0,1$ (as $\gamma = \gamma_1+\gamma_2$, small circles around each), then
+\[
+\int_\gamma \frac{2}{z}\,dz + \int_\gamma \frac{1}{z-1}\,dz = 2\cdot2\pi i + 2\pi i = 4\pi i + 2\pi i = 6\pi i.
+\]
+\end{example}
+
+\begin{example}
+$\int_\gamma \dfrac{3z^2}{(z^2+1)^2}\,dz$ around a circle enclosing $i$ only (not $-i$). Write $3z^2 = 3(z^2+1) - 3$, so
+\[
+\int_\gamma \frac{3z^2}{(z^2+1)^2}\,dz = \int_\gamma \frac{3z^2+3}{(z^2+1)^2}\,dz - \int_\gamma \frac{3}{(z^2+1)^2}\,dz = 3\int_\gamma \frac{1}{z^2+1}\,dz - 3\int_\gamma \frac{1}{(z^2+1)^2}\,dz
+\]
+\[
+= 3\int_\gamma \frac{(z+i)^{-1}}{z-i}\,dz - 3\int_\gamma \frac{(z+i)^{-2}}{(z-i)^2}\,dz = 3\cdot 2\pi i (2i)^{-1} - 3\cdot 2\pi i\left(\frac{-2}{(2i)^3}\right) = \frac{6\pi i}{2i} + \frac{12\pi i}{8i^3} = 3\pi - \frac32\pi = \frac{3\pi}{2}.
+\]
+(One can also keep it as one integral and take the second derivative, using Cauchy's formula for higher derivatives.)
+\end{example}
+
+\subsection{Zeros of Holomorphic Functions and the Identity Theorem}
+
+\begin{definition}
+Suppose $f$ is holomorphic on $G$, $f(z_0)=0$. Say $z_0$ is a zero of $f$ of order $n$ if
+\[
+0 = f(z_0) = f'(z_0) = \dots = f^{(n-1)}(z_0) = 0 \quad\text{but}\quad f^{(n)}(z_0) \ne 0.
+\]
+Order-$1$ zeros are called \emph{simple zeros}.
+\end{definition}
+
+\begin{example}
+If $f$ has an $\infty$-order zero at $z_0$, then if $r>0$ s.t.\ the disc with centre $z_0$ radius $r$ is in $G$, then for $|z-z_0|<r$,
+\[
+f(z) = \sum_{k\ge0} \frac{f^{(k)}(z_0)}{k!}(z-z_0)^k = 0 \quad \text{(locally, in $r$)}.
+\]
+\end{example}
+
+Let $G_1 = \{z\in G : f \text{ has an } \infty\text{-order zero at } z\}$. Then $G_1$ is open, and also $G_1$ is closed (in $G$); so $f$ is identically zero on the connected component containing the initial point $z_0$.
+
+If $z_0$ is a zero of order $n<\infty$, then
+\[
+f(z) = \sum_{k\ge0} \frac{f^{(k)}(z_0)}{k!}(z-z_0)^k = \sum_{k\ge n}\frac{f^{(k)}(z_0)}{k!}(z-z_0)^k = (z-z_0)^ng(z), \qquad g(z) = \begin{cases} \dfrac{f(z)}{(z-z_0)^n} & z\ne z_0 \\ \dfrac{f^{(n)}(z_0)}{n!} & z=z_0 \end{cases}
+\]
+so $f(z) = (z-z_0)^ng(z)$; $g$ holomorphic on $G$ and $g(z_0)\ne0$. Since $g$ is continuous, $\exists \varepsilon>0$ s.t.\ if $|z-z_0|<\varepsilon$ then $g(z)\ne0$; also if $0<|z-z_0|<\varepsilon$, then $f(z)\ne0$; i.e.\ finite-order zeros of $f$ are isolated.
+
+\begin{theorem}[Identity Theorem]
+If $f, g$ are holomorphic on $G$ connected and agree on a set of a limit point in $G$, then $f\equiv g$.
+\end{theorem}
+
+\begin{example}
+Suppose $f:\D\to\C$ holomorphic s.t.\ $f\left(\frac1n\right)=\frac{1}{n^2}$. What is $f'\left(\frac{1}{2i}\right)$? Set $g(z)=z^2$; $f\left(\frac1n\right)=g\left(\frac1n\right)$, $\frac1n\to0\in\D$, so by the identity theorem, $f(z)=g(z)$ for $z\in\D$; so $f'(z)=g'(z)=2z$, thus $f'\left(\frac{1}{2i}\right) = 2\left(\frac{1}{2i}\right) = \frac{1}{i} = -i$.
+\end{example}
+
+\begin{example}
+$f(x) = \begin{cases} x^2\sin\frac1x & x\ne0 \\ 0 & x=0\end{cases}$ (a real-variable curiosity).
+\end{example}
+
+\begin{example}
+$f(z) = z^2\sin(1/z)$, $G=\C\setminus\{0\}$, $g(z)=0$ on $G$.
+
+\emph{Note:} $\exists z_n\in G$ s.t.\ $z_n\to0\notin G$ and $f(z_n)=g(z_n)$, $z_n=\frac{1}{\pi n}$. This shows $z_0$ must be in $G$ for the identity theorem to apply.
+\end{example}
+
+\begin{theorem}[Weierstrass Convergence Theorem]
+Suppose $G\subset\C$ open, $f_k:G\to\C$, $k\in\N$. Suppose $f_k\to f$ locally uniformly, then $f$ is holomorphic. Moreover, $f_k^{(n)}$ converges to $f^{(n)}$ locally uniformly.
+\end{theorem}
+\begin{proof}
+Fix $z_0\in G$. Fix $r$ s.t.\ the circle of radius $r$ centred at $z_0$ is in $G$ along with its interior, $C_r$ (oriented CCW).
+If $|z-z_0|<r$, since $f_k$ continuous, $f_k(z) = \dfrac{1}{2\pi i}\int_{C_r} \dfrac{f_k(\zeta)}{\zeta-z}\,d\zeta$, and this converges uniformly to $\dfrac{1}{2\pi i}\int_{C_r}\dfrac{f(\zeta)}{\zeta-z}\,d\zeta$. Also $f_k(z)\to f(z)$ by hypothesis. So $f(z) = \dfrac{1}{2\pi i}\int_{C_r}\dfrac{f(\zeta)}{\zeta-z}\,d\zeta$. Since $f$ is a Cauchy integral of a continuous function, $f$ is holomorphic in the disc.
+
+If $n\ge1$ (fix $z_0$ in the radius), $f_k^{(n)}(z) = \dfrac{n!}{2\pi i}\int_{C_r} \dfrac{f_k(\zeta)}{(\zeta-z)^{n+1}}\,d\zeta$; also $f^{(n)}(z) = \dfrac{n!}{2\pi i}\int_{C_r}\dfrac{f(\zeta)}{(\zeta-z)^{n+1}}\,d\zeta$.
+If $|z-z_0|<r/2$:
+\[
+\left|f_k^{(n)}(z)-f^{(n)}(z)\right| = \left|\frac{n!}{2\pi i}\int_{C_r} \frac{f_k(\zeta)-f(\zeta)}{(\zeta-z)^{n+1}}\,d\zeta\right| \le \frac{n!}{2\pi}L(C_r)\cdot \frac{M_k}{(r/2)^{n+1}},
+\]
+where $M_k$ is the max of $|f_k(\zeta)-f(\zeta)|$ for $\zeta\in C_r$. Since $f_k\to f$ locally uniformly, $M_k\to0$ as $k\to\infty$. A compactness argument then shows $f_k^{(n)} \to f^{(n)}$ uniformly on any compact set, i.e.\ $f_k^{(n)} \to f^{(n)}$ locally uniformly.
+\end{proof}
+
+\begin{corollary}
+If $f(z)=\sum_{n\ge0} a_nz^n$ has radius of convergence $R>0$, then $f'(z)=\sum_{n\ge1} na_nz^{n-1}$: $f(z)$ is a locally uniform limit of $f_N(z):=\sum_{n=0}^N a_nz^n$; $f_N'(z) = \sum_{n=1}^N na_nz^{n-1}$, which converges locally uniformly to $f'(z)$.
+\end{corollary}
+
+\subsection{Maximum Modulus Principle and Schwarz's Lemma}
+
+\begin{theorem}[Maximum Modulus Principle]
+If $f: G \to \C$ is holomorphic and $|f|$ attains a local maximum at $z_0 \in G$ ($G$ non-constant, connected), then $f$ is constant.
+\end{theorem}
+
+\begin{example}
+If $G=\C$, $f$ entire and non-constant, $f$ has no local maxima.
+\end{example}
+
+\emph{Exercise:} Prove the Fundamental Theorem of Algebra using the Maximum Modulus Principle.
+
+\begin{proof}
+Suppose $f$ holomorphic on $G$ and has a local maximum at $z_0$.
+If $|f(z_0)|=0$, then $\exists r>0$ s.t.\ $|f(z)|=0\ \forall |z-z_0|<r$. Then $f$ is constant $0$ on $G$ (connected).
+So assume $\lambda:=f(z_0)\ne0$. Take $r_0$ s.t.\ $|f(z)|\le|\lambda|\ \forall |z-z_0|\le r$ ($\{|z-z_0|\le r\}\subset G$).
+\[
+f(z_0) = \frac{1}{2\pi}\int_0^{2\pi} f(z_0+re^{i\theta})\,d\theta.
+\]
+So $\lambda = \frac{1}{2\pi}\int_0^{2\pi} \alpha f(z_0+re^{i\theta})\,d\theta$ where $\alpha=\lambda/|\lambda|$; taking real parts:
+\[
+|\lambda| = \frac{1}{2\pi}\int_0^{2\pi} \mathrm{Re}\big(\alpha f(z_0+re^{i\theta})\big)\,d\theta.
+\]
+So $\frac{1}{2\pi}\int_0^{2\pi} |\lambda| - \mathrm{Re}(\alpha f(z_0+re^{i\theta}))\,d\theta = 0$, and the integrand is continuous, non-negative, and by an ``area under the curve'' argument, is identically $0$. So $|\lambda| = \mathrm{Re}(\alpha f(z_0+re^{i\theta}))$. Since $|f(z)| \ge |\alpha f(z_0+re^{i\theta})| \ge \mathrm{Re}(\alpha f(z_0+re^{i\theta})) = |\lambda|$, and $|f(z_0)|=|\lambda|$ was assumed to be the max, force $|f(z_0+re^{i\theta})|=\alpha f(z_0+re^{i\theta})$.
+
+So $f(z) = f(z_0+re^{i\theta})$ for $|z-z_0|<r$, by the identity theorem $f(z) = f(z_0) \ \forall z\in G$ (non-constant, connected).
+\end{proof}
+
+\begin{corollary}
+If $f: G\to\C$ is holomorphic and $K\subset G$ compact nonempty, then $|f|$ attains its maximum on the boundary of $K$.
+\end{corollary}
+
+\begin{remark}[Q]
+For $K\subset G$ compact, can $|f|$ attain its min in the interior of $K$? (Let $\mathrm{Int}(K)=K^\circ = K\setminus\overline{K^c}$.)
+
+\emph{A:} Yes, $f(z)=z$, $K=\overline{\D}$, $|f|$ attains min at $0$, $|f(0)|=0$.
+
+\textbf{Claim:} If a point $z_0\in K^\circ$ gives the minimum of $|f|$ on $K$, then $f(z_0)=0$.
+
+If $f(z_0)\ne0$ then $\frac{1}{f(z)}$ is holomorphic on a neighbourhood of $z_0$, on an open set $G'\supset K$. By MMP, $\frac{1}{|f|}$ attains max on $\partial K = K\cap \overline{K^c}$.
+\end{remark}
+
+\begin{theorem}[Schwarz's Lemma]
+Suppose $f:\D\to\D$ is holomorphic and $f(0)=0$, then $|f(z)| \le |z|$ for $z\in\D$.
+Moreover, if $|f(z_0)| = |z_0|$ for some $z_0\in\D$, then $|f(z)|=|z|$ for all $z\in\D$, and in fact $f(z) = \lambda z$ for some $|\lambda|=1$.
+\end{theorem}
+
+\begin{proof}
+Define $g(z) = \begin{cases} \dfrac{f(z)}{z} & z\ne0 \\ f'(0) & z=0 \end{cases}$. Then $g$ is holomorphic.
+Moreover, $|g(re^{i\theta})| \le \frac1r$ for $0\le\theta\le2\pi$, $0<r<1$. By MMP, $|g(z)| \le \frac1r$ for $|z|\le r$; letting $r\to1$, $|g(z)|\le1$ for $|z|<1$.
+So $|g(z)|\le1\ \forall|z|<1$, so $|f(z)|\le|z|\ \forall|z|<1$.
+
+Moreover, if $|f(z_1)|=|z_1|$, $z_1\ne0$, then $|g(z_1)|=1$, so $g(z)=\lambda$ constant by MMP, $|\lambda|=1$, $z\in\D$. So $f(z)=\lambda z$, $z\in\D$, $|\lambda|\le1$.
+\end{proof}
+
+\subsection{Alternate Proof of the Fundamental Theorem of Algebra using MMP}
+
+Suppose $P(z)$ non-constant has no roots, then $f(z)=\frac{1}{P(z)}$ is entire. As $|z|\to\infty$, $|P(z)|\to\infty \implies |f(z)|\to0$.
+Let $\varepsilon>0$, then $\exists R>0\ \forall|z|>R$, $|f(z)|<\varepsilon$. Consider $f(z)|_{D_R}$: we need to show for a contradiction that $f$ has a local maximum.
+$\lim_{|z|\to\infty} |f(z)| = \varepsilon$; of course modulo bound below, this $\{|f(z)| : |z|\ge R\}$ is bounded by $\varepsilon$, so $|f(z)|\to\infty$ for some $z_0\in D_R$.
+$\implies \frac{1}{|P(z)|}\to\infty$ as $|P(z_0)|\to0$ for $z_0\in D_R$, $\implies P(z_0)=0$ --- contradiction. Hence $P(z)$ has a zero in $\C$.
+
+\newpage
+\section{Laurent Series}
+
+We will begin this section by motivating through the following examples.
+
+\begin{example}
+$\dfrac{1}{1-z} = \sum_{n\ge0} z^n$ for $|z|<1$. Alternatively:
+\[
+\frac{1}{1-z} = -\frac1z\left(\frac{1}{1-\frac1z}\right) = -\frac1z\sum_{k\ge0}\left(\frac1z\right)^k = \sum_{n=-\infty}^{-1} -z^n, \qquad |z|>1.
+\]
+\end{example}
+
+\begin{example}
+$\dfrac{1}{(z-1)(z+1)} = \dfrac{1}{z-1}-\dfrac{1}{z+1}$.
+\[
+\frac{1}{z+1} = \frac{-1}{2}\left(\frac{1}{1-\frac{-z}{2}}\right) = \frac{-1}{2}\sum_{n\ge0}\left(\frac{-z}{2}\right)^n, \qquad |z|<2,
+\]
+\[
+\frac{-1}{z+1} = \sum_{n=-\infty}^{-1} -z^n, \qquad |z|>1,
+\]
+so $\dfrac{1}{(z+1)(z-1)} = \sum_{n=-\infty}^{-1} -z^n - \dfrac12\sum_{n\ge0}\left(\dfrac{-z}{2}\right)^n$, for $1<|z|<2$.
+\end{example}
+
+Based on our investigation above, we propose the following definition as an extension to power series. 
+
+\begin{definition}[Laurent Series]
+A Laurent series is a series of the form $\sum_{n=-\infty}^\infty a_n(z-z_0)^n$. This converges at $z$ if both $\sum_{n\ge0} a_n(z-z_0)^n$ and $\sum_{n<0} a_n(z-z_0)^n$ converge.
+\end{definition}
+
+In the rest of this section, we present some more versions of Cauchy's theorem that are then linked to laurent series. Following this, we define the notion of an isolated singularity, which one can think of as the complex equivalent of asymptotes, and see how holomorphic functions can be represented using laurent series around these singularities. Thus, we have more flexibility with series representations compared to only using power series. We begin with the following remark, which is a generalization of the investigation above.
+
+\begin{remark}
+    If $\dfrac{1}{R_2} = \limsup_{n\to\infty} |a_n|^{1/n}$ and $R_1 = \limsup_{n\to\infty} |a_{-n}|^{1/n}$, then $\left(\sum_{n=-N}^N a_n(z-z_0)^n\right)_{N=1}^\infty$ converges locally uniformly in the region $G = \{z\in\C : R_1 < |z-z_0| < R_2\}$, to a holomorphic function $f$ s.t.
+    \[
+    f(z) = \sum_{n=-\infty}^\infty a_n(z-z_0)^n, \qquad \text{for } R_1<|z-z_0|<R_2.
+    \]
+\end{remark}
+
+\begin{remark}
+$f'(z) = \sum_{n=-\infty}^\infty na_n(z-z_0)^{n-1}$, $R_1<|z-z_0|<R_2$.
+\end{remark}
+
+\begin{theorem}[Cauchy's Theorem for an Annulus]
+Suppose $f$ is holomorphic on a region $\{z\in\C : R_1 < |z-z_0| < R_2\}$, $0\le R_1<R_2\le\infty$. For $R_1<r<R_2$, let $C_r$ be the circle of radius $r$ centre $z_0$ oriented CCW. Then $\int_{C_r} f(z)\,dz$ is independent of $r$, $R_1<r<R_2$.
+\end{theorem}
+
+\begin{proof}[Proof 1]
+Picture the annulus with a small ``bridge'' curve $D_r$ joining $C_{r_1}$ and $C_{r_2}$; by Cauchy's theorem for convex regions applied to each half, $0 = \int_{D_r} f(z)\,dz$ (by Cauchy's theorem, twice), and this equals $\int_{C_{r_1}} f(z)\,dz - \int_{C_{r_2}} f(z)\,dz$.
+\end{proof}
+
+\begin{proof}[Proof 2]
+Let $I(r) = \int_{C_r} f(z)\,dz$, $R_1<r<R_2$, $C_r$ parametrized as $z_0+re^{it}$, $0\le t\le2\pi$. Then $I(r) = \int_0^{2\pi} f(z_0+re^{it})\,ire^{it}\,dt$.
+\[
+\left(\frac{d}{dr}I\right)(r) = \int_0^{2\pi} \frac{\partial}{\partial r}(ire^{it}f(z_0+re^{it}))\,dt = \int_0^{2\pi} \big(f'(z_0+re^{it})ire^{it}\cdot e^{it} + f(z_0+re^{it})\cdot ie^{it}\big)\,dt = \int_0^{2\pi} \frac{\partial}{\partial t}\big(f(z_0+re^{it})e^{it}\big)\,dt
+\]
+\[
+= f(z_0+re^{it})e^{it}\Big|_0^{2\pi} = 0 \implies I(r) \text{ constant}.
+\]
+\end{proof}
+
+\begin{theorem}[Cauchy's Formula for an Annulus]
+Suppose $f$ is holomorphic in the annulus $\{z\in\C : R_1<|z-z_0|<R_2\}$. Let $z$ be a point in this annulus. Take $C_r$, oriented CCW, with radius $r$, centre $z_0$. Fix $R_1<r_1<r_2<R_2$, and $z=\zeta$, $r_1<|z-z_0|<r_2$. Then
+\[
+f(z) = \frac{1}{2\pi i}\int_{C_{r_2}} \frac{f(\zeta)}{\zeta-z}\,d\zeta - \frac{1}{2\pi i}\int_{C_{r_1}} \frac{f(\zeta)}{\zeta-z}\,d\zeta.
+\]
+\end{theorem}
+
+\begin{proof}
+$r_1,r_2,z$ are fixed. Consider the function $g(\zeta) = \begin{cases} \dfrac{f(\zeta)-f(z)}{\zeta-z} & \zeta\ne z \\ f'(z) & \zeta=z\end{cases}$. $g$ is holomorphic in the annulus $\{R_1<|\zeta-z_0|<R_2\}$. By Cauchy's theorem for the annulus,
+\[
+\int_{C_{r_1}} g(\zeta)\,d\zeta = \int_{C_{r_2}} g(\zeta)\,d\zeta \implies \int_{C_{r_1}} \left(\frac{f(\zeta)}{\zeta-z} - \frac{f(z)}{\zeta-z}\right)d\zeta = \int_{C_{r_2}}\left(\frac{f(\zeta)}{\zeta-z}-\frac{f(z)}{\zeta-z}\right)d\zeta,
+\]
+\[
+\int_{C_{r_1}} \frac{f(\zeta)}{\zeta-z}\,d\zeta - \int_{C_{r_1}} \frac{f(z)}{\zeta-z}\,d\zeta = \int_{C_{r_2}} \frac{f(\zeta)}{\zeta-z}\,d\zeta - \int_{C_{r_2}} \frac{f(z)}{\zeta-z}\,d\zeta,
+\]
+and since $z$ is not enclosed by $C_{r_1}$ (it's inside the annulus, outside the inner circle) but is enclosed by $C_{r_2}$: $\int_{C_{r_1}}\frac{1}{\zeta-z}\,d\zeta=0$, $\int_{C_{r_2}}\frac{1}{\zeta-z}\,d\zeta=2\pi i$. So
+\[
+f(z)\cdot2\pi i - 0 = \int_{C_{r_2}} \frac{f(\zeta)}{\zeta-z}\,d\zeta - \int_{C_{r_1}} \frac{f(\zeta)}{\zeta-z}\,d\zeta. \qedhere
+\]
+\end{proof}
+
+\subsection{Derivation of the Laurent Coefficients}
+
+\emph{Recall:} If $\gamma$ is a piecewise-$C^1$ curve in $G$, $\varphi$ a continuous $\C$-valued function on the range of $\gamma$, the Cauchy integral of $\varphi$ over $\gamma$ is $z \mapsto \int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta$, defined for $z$ not in the range of $\gamma$.
+
+For Laurent series: let $R$ denote the smallest positive number s.t.\ the range of the curve $\gamma$ is entirely contained in the disc of centre $z_0$ radius $R$.
+\[
+\frac{1}{\zeta-z} = \frac{1}{(\zeta-z_0)-(z-z_0)} = \frac{-1}{z-z_0}\left(\frac{1}{1-\frac{\zeta-z_0}{z-z_0}}\right) = \frac{-1}{z-z_0}\sum_{n\ge0}\left(\frac{\zeta-z_0}{z-z_0}\right)^n,
+\]
+converging locally uniformly (as a function of $\zeta$) when $\left|\frac{\zeta-z_0}{z-z_0}\right|<1$, so
+\[
+\int_\gamma \frac{\varphi(\zeta)}{\zeta-z}\,d\zeta = \sum_{n\ge0} \frac{-1}{(z-z_0)^{n+1}} \int_\gamma \varphi(\zeta)(\zeta-z_0)^n\,d\zeta.
+\]
+Applying this to the two circular pieces $C_{r_1},C_{r_2}$ in Cauchy's formula for an annulus gives the Laurent coefficients
+\[
+a_n = \frac{1}{2\pi i}\int_{C_r} \frac{f(\zeta)}{(\zeta-z_0)^{n+1}}\,d\zeta, \qquad n \in \Z, \qquad R_1<r<R_2.
+\]
+
+\subsection{Isolated Singularities}
+
+\begin{definition}[Isolated Singularity]
+Suppose $f$ is holomorphic on $G$. A point $z_0$ is an isolated singularity if $z_0\notin G$ but there is $r>0$ s.t.\ $\{z\in\C : 0<|z-z_0|<r\}\subseteq G$.
+\end{definition}
+
+\begin{remark}
+If $z_0$ is an isolated singularity, then $f$ has a Laurent series representation near $z_0$.
+\end{remark}
+
+\begin{example}
+$f(z)=\dfrac1z$, $G=\{z\in\C : z\ne0\}$.
+\end{example}
+
+\begin{definition}[Removable Singularity]
+$z_0$ is a removable singularity if there is a holomorphic function $F:G\cup\{z_0\}\to\C$ s.t.\ $F|_G = f$. Equivalently, every $a_n$ in the Laurent series is $0$ for $n<0$.
+\end{definition}
+
+\begin{example}
+$f(z) = \dfrac{z}{e^z-1}$, $G=\{z : z\ne0\}$. We also have $e^z-1=\sum_{n\ge1}\frac{1}{n!}z^n$, so $e^z-1=z\left(\sum_{n\ge1}\frac{1}{n!}z^{n-1}\right)$, and $f(z)=\dfrac{z}{e^z-1} = \dfrac{1}{\sum_{n\ge1}\frac{1}{n!}z^{n-1}}$, $z\ne0$, has $f$ good at $z=(0,0)$ i.e.\ if $g$ extended to the origin, then $g$ is the function $F$.
+\end{example}
+
+\begin{definition}[Pole]
+An isolated singularity is a pole of order $m$ if in the Laurent series expansion near $z_0$ we have $f(z) = \sum_{n=-m}^\infty a_n(z-z_0)^n$ with $a_{-m}\ne0$. Order-one poles are called simple poles.
+\end{definition}
+
+\begin{example}
+$f(z) = \dfrac1z$: simple pole at $0$.
+\end{example}
+
+If $f$ has a pole of order $n$, then
+\[
+\sum_{n=-m}^\infty a_n(z-z_0)^n = (z-z_0)^{-m}\left(\sum_{n\ge0} a_{n-m}(z-z_0)^n\right),
+\]
+so $f(z)(z-z_0)^m$ has a removable singularity at $z_0$.
+
+\begin{definition}[Essential Singularity]
+$z_0$ is an essential singularity if there are infinitely many non-zero terms corresponding to negative values in the Laurent series representation near $z_0$.
+\end{definition}
+
+\begin{example}
+$f(z) = e^{1/z} = \sum_{n\ge0} \frac{1}{n!}z^{-n}$: essential singularity at $0$.
+\end{example}
+
+\begin{definition}[Isolated Singularity at Infinity]
+$\infty$ is an isolated singularity for $f$ if $\exists R>0$ s.t.\ $\{z\in\C : |z|>R\}\subset G$.
+$\infty$ is a removable singularity (resp.\ a pole of order $m$, an essential singularity) if the function $f(1/\zeta)$ has the corresponding singularity at $\zeta=0$.
+\end{definition}
+
+\begin{example}
+$f(z)=z$, $f(1/\zeta)=1/\zeta$: simple pole at $0$, so $f$ has a simple pole at $\infty$.
+\end{example}
+\begin{example}
+$f(z)=c$: removable singularity at $\infty$.
+\end{example}
+\begin{example}
+$f(z)=\frac1z$, $f(1/\zeta)=\zeta\to0$ at $\zeta=0$: removable.
+\end{example}
+\begin{example}
+$f(z)=e^z$: essential singularity at $\infty$.
+\end{example}
+
+\begin{theorem}[Riemann's Removable Singularity Theorem]
+An isolated singularity $z_0$ is removable iff $\exists r>0$ s.t.\ $\{z\in\C : 0<|z-z_0|<r\}\subset G$ and $\exists M>0$ s.t.\ $|f(z)|\le M$ for $z\in$ this punctured disc.
+\end{theorem}
+
+\begin{proof}
+$(\Rightarrow)$ If $F(z) = \sum_{n\ge0} a_n(z-z_0)^n$ for $z \in D_r(z_0)$. If $n<0$:
+\[
+|a_n| \le \frac{1}{2\pi}L(C_r)r^{-n-1}M = r^{-n}M \to 0 \text{ as } r\to0 \ (n<0),
+\]
+so $a_n=0$ for $n<0$, so the singularity is removable.
+
+$(\Leftarrow)$ Since $|f(z)|\le M$, the singularity is not a pole (else $|f(z)|\to\infty$). Consider $g(z) = \dfrac{1}{f(z)}$, defined on $G\setminus\{\text{zeros of }f\}$. Note $z_0$ is an isolated singularity of $G$; in particular $z_0$ is removable for $g$ and extend $g(z_0)=0$.
+
+$z_0$ is a zero, in particular it is a finite-order zero (if $0$-th order, we contradict removability of $z_0$ for $f$ by identity theorem).
+\[
+\implies g(z) = (z-z_0)^mh(z), \quad h \text{ holomorphic}, h(z_0)\ne0. \implies f(z) = \frac{1}{g(z)} = (z-z_0)^{-m}\left(\frac{1}{h(z)}\right),
+\]
+with $\frac1h$ holomorphic in a neighbourhood of $z_0$, giving the Laurent expansion, so $f$ has a pole of order $m$ at $z_0$.
+\end{proof}
+
+\begin{theorem}
+Suppose $z_0$ is an isolated singularity for $f$. Then $z_0$ is a pole iff $\lim_{z\to z_0}|f(z)|=\infty$, i.e.\ $\forall N>0\ \exists\delta>0$ s.t.\ if $|z-z_0|<\delta$, $|f(z)|\ge N$.
+\end{theorem}
+\begin{proof}
+$(\Rightarrow)$ If $z_0$ is a pole, $f(z)=\sum_{n=-m}^\infty a_n(z-z_0)^n = (z-z_0)^{-m}g(z)$ on $G\cup\{z_0\}$, $g$ holomorphic, $g(z_0)\ne0$.
+\[
+|f(z)| = |z-z_0|^{-m}|g(z)| \implies \lim_{z\to z_0} |g(z)| = \infty.
+\]
+$(\Leftarrow)$ Since $|f(z)|\to\infty$ near $z_0$, the singularity is not removable. Consider $g(z)=\dfrac{1}{f(z)}$, defined on $G\setminus\{\text{zeros of }f\}$. Note $z_0$ is an isolated singularity of $g$. In particular $z_0$ is removable for $g$; extend $g(z_0)=0$. If $g(z)\ne0$, then $f(z)=\frac{1}{g(z)}+c$, then $\lim_{z\to z_0}f(z)$ exists, so $z_0$ is removable for $f$.
+\end{proof}
+
+\begin{theorem}[Picard's Theorem]
+If $f$ is holomorphic on $G$ and $z_0$ is an essential singularity, then $\forall \varepsilon>0$,
+\[
+\left|\C\setminus f\big(G\cap D_\varepsilon^*(z_0)\big)\right| \le 1.
+\]
+\end{theorem}
+
+\begin{theorem}[Casorati--Weierstrass Theorem]
+If $z_0$ is an essential singularity, then $\forall\varepsilon>0$,
+\[
+\overline{f\big(G\cap D_\varepsilon^*(z_0)\big)} = \C.
+\]
+\end{theorem}
+\begin{proof}
+Fix $w\in\C$. Consider $g(z) = \dfrac{1}{f(z)-w}$.
+\begin{itemize}
+\item[\emph{Case 1:}] $z_0$ is not an isolated singularity for $g$: then $\exists (z_n)\subset G$, $z_n\to z_0$, $f(z_n)=w$.
+\item[\emph{Case 2:}] $z_0$ is removable, then $g(z_0)=0$, so $f(z)\to\infty$, i.e.\ $f$ has a pole at $z_0$ --- contradiction with essential.
+\item[\emph{Case 3:}] $z_0$ is removable and $g(z_0)\ne0$: then $z_0$ removable for $f$, contradiction.
+\item[\emph{Case 4:}] $z_0$ is not removable, then $\exists (z_n)\subset G$, $z_n\to z_0$, $g(z_n)\to\infty$.
+\end{itemize}
+In all cases we produce points $z_n\to z_0$ with $f(z_n)\to w$, so $w \in \overline{f(G\cap D_\varepsilon^*(z_0))}$ for all $\varepsilon$.
+\end{proof}
+
+\begin{proof}[Alternate proof (by contrapositive) of Casorati--Weierstrass]
+Suppose $z_0$ is an isolated singularity and $w\in\C$ is not a limit of some sequence $f(z_n)$, $z_n\to z_0$: i.e.\ $\exists \delta>0$ s.t.\ $z\in G$, $|z-z_0|<\delta$, then $|f(z)-w|>\delta$.
+Define $g$ by $g(z) = \dfrac{1}{f(z)-w}$. If $|z-z_0|<\delta$, $z\in G$: $|g(z)| \le \dfrac1\delta$.
+$\therefore z_0$ is an isolated singularity for $g$ and removable (bounded near $z_0$).
+If $g(z_0)\ne0$, then $f(z) = \dfrac{1}{g(z)}+w$, so $\lim_{z\to z_0} f(z)$ exists, so $z_0$ removable for $f$.
+If $g(z_0)=0$, suppose $z_0$ is an order-$m$ zero of $g$: $g(z)=(z-z_0)^mh(z)$, $h$ holomorphic, $h(z_0)\ne0$, so $f(z)=\dfrac{1}{g(z)}+w=(z-z_0)^{-m}\left(\dfrac{1+w\cdot g(z)}{h(z)}\right)$, holomorphic in a neighbourhood of $z_0$, so $f$ has a pole of order $m$ at $z_0$.
+\end{proof}
+
+\newpage
+\section{General Form of Cauchy's Theorem}
+
+Recall from earlier on in the course we have derived Cauchy's theorem for a triangle, convex region, and annulus. In this section, we seek to prove a general version of Cauchy's Theorem for any open subset of $\C$. We begin by exploring continuous logarithms and the notion of a winding number.
+
+\subsection{Continuous Logarithms and Winding Numbers}
+\emph{Recall:} If $G\ne\C$ is convex, open, $\gamma$ a piecewise-$C^1$ closed curve in $G$, and $f:G\to\C$ holomorphic, then $\oint_\gamma f(z)\,dz=0$.
+
+\begin{example}
+$\frac1z$ holomorphic on $\C\setminus\{0\}$: $\oint \frac1z\,dz = 2\pi i \ne 0$ (so $\C\setminus\{0\}$ is not ``simply connected,'' this being a motivating example).
+\end{example}
+
+\begin{theorem}[Existence of a Continuous Logarithm along a Path]
+Suppose $a<b$, $\varphi:[a,b]\to\C\setminus\{0\}$ is continuous. Then there exists $\Psi:[a,b]\to\C$ continuous s.t.\ $\varphi(t) = e^{\Psi(t)}\ \forall t\in[a,b]$. Moreover, $\Psi$ is unique up to adding an integer multiple of $2\pi i$.
+\end{theorem}
+
+\begin{proof}
+\emph{Case 1:} The range of $\varphi$ is contained in a half-plane. Then take $l(z)$, a branch of $\log$ defined on the half-plane. Set $\Psi(t) = l\circ\varphi(t) \implies e^{\Psi(t)} = e^{l(\varphi(t))} = \varphi(t)$.
+
+\textbf{Uniqueness:} Suppose $\Psi_1,\Psi_2$ both continuous and satisfy $e^{\Psi_i(t)}=\varphi(t)\ \forall t\in[a,b]$. Then $e^{\Psi_1(t)-\Psi_2(t)}=1 \implies \Psi_1(t)-\Psi_2(t) : [a,b]\to 2\pi i\Z\subset\C$, and continuity forces $\Psi_1-\Psi_2$ constant.
+
+\emph{General case:} If $t\in[a,b]$, fix $\varepsilon>0$ s.t.\ the ball of centre $\varphi(t)$, radius $\varepsilon$, is contained in a half-plane. Choose $\delta>0$ s.t.\ if $s\in[a,b]$, $|t-s|<\delta \implies |\varphi(s)-\varphi(t)|<\varepsilon$. So $\exists \Psi:\left[t-\frac\delta2,t+\frac\delta2\right]\to\C$ s.t.\ $\varphi(s)=e^{\Psi(s)}$ for $s\in\left[t-\frac\delta2,t+\frac\delta2\right]$. Since the interval $[a,b]$ is compact, $\exists a=t_0<t_1<\dots<t_n=b$ s.t.\ on each interval $[t_i,t_{i+1}]$, $\varphi([t_i,t_{i+1}])$ lies in a half-plane. So we can define $\Psi_i$ on each and assume $\Psi_i(t_{i+1})=\Psi_{i+1}(t_{i+1})$ by adding some multiple of $2\pi i$ so we can consider $\Psi$ by $\Psi(s)=\Psi_i(s)$ if $s\in[t_i,t_{i+1}]$; so $\Psi(s)=e^{\Psi(s)}$.
+\[
+\Psi(t)=\Psi(a)+\int_a^t \frac{\varphi'(s)}{\varphi(s)}\,ds.
+\]
+\end{proof}
+
+\begin{example}
+If $\varphi$ piecewise-$C^1$: fix $c$ s.t.\ $e^c=\varphi(a)$. Set $\Psi(t) = c+\int_a^t \dfrac{\varphi'(s)}{\varphi(s)}\,ds$. By FTC, $\Psi$ is differentiable and $\Psi'=\dfrac{\varphi'}{\varphi}$.
+
+\emph{Note:} $\left(\varphi e^{-\Psi}\right)' = \varphi'e^{-\Psi} - \varphi e^{-\Psi}\Psi' = 0$, and $\varphi(a)e^{-\Psi(a)}=e^ce^{-c}=1$, so $\varphi e^{-\Psi}\equiv1$, confirming $\varphi=e^\Psi$.
+\end{example}
+
+If $\gamma$ is any continuous curve and $f$ a continuous function defined on the range of $\gamma$ s.t.\ $f\circ\gamma$ is never zero, there exists $\Psi:[a,b]\to\C$ s.t.\ $e^\Psi = f\circ\gamma$.
+
+\begin{definition}
+The \emph{increment in $\log$ of $f$ along $\gamma$} is $\Delta(\log f,\gamma) = \Psi(b)-\Psi(a)$.
+\end{definition}
+
+\emph{Note:} this is well-defined, since if $f\circ\gamma = e^{\Psi_1} = e^{\Psi_2}$, $\Psi_1,\Psi_2$ continuous, then $\exists m\in\Z$ s.t.\ $\Psi_1(t) = \Psi_2(t) + 2\pi i m$, so $\Psi_1(b)-\Psi_1(a) = \Psi_2(b) - \Psi_2(a) + 2\pi im-2\pi im$.
+
+\begin{example}
+$\gamma(t) = e^{it}$, $0\le t\le2\pi$, $f(z)=z$. $\Psi:[0,2\pi]\to\C$, $\Psi(t)=it$; $\Delta(\log z,\gamma) = 2\pi i - 0 = 2\pi i$.
+\end{example}
+
+\begin{definition}
+The \emph{increment of the argument} of $f$ along $\gamma$ is $\mathrm{Im}\big(\Delta(\log f,\gamma)\big)$. For the example above: $\Delta(\arg z, \gamma) = 2\pi$.
+\end{definition}
+
+\begin{definition}[Winding Number]
+Suppose $\gamma$ is a continuous closed curve, i.e.\ $\gamma:[a,b]\to\C$ continuous and $\gamma(a)=\gamma(b)$. Suppose $z_0\notin R(\gamma)$ (the range of $\gamma$). Consider $f(z)=z-z_0$. The \emph{winding number} of $\gamma$ at $z_0$ is defined as $\dfrac{1}{2\pi i}\Delta(\log z-z_0,\gamma)$, denoted $\ind_{z_0}(\gamma)$.
+\end{definition}
+
+\begin{example}
+For $\gamma(t)=e^{it}$: $\ind_{z=0}(\gamma) = 1$.
+\end{example}
+
+\begin{remark}
+If $\gamma$ is a closed curve, then $\Delta(\log f,\gamma)$ is an integer multiple of $2\pi i$, and $\Delta(\arg f,\gamma) = \frac1i\Delta(\log f,\gamma)$ is an integer multiple of $2\pi$.
+\end{remark}
+
+\begin{example}
+If $\gamma:[a,b]\to\C$ is a piecewise-$C^1$ curve, $\gamma(t)\ne z_0$, $z_0\notin R(\gamma)$: $\Psi(t) = c+\int_a^t \dfrac{\gamma'(s)}{\gamma(s)-z_0}\,ds$, so
+\[
+\ind_{z=z_0}(\gamma) = \frac{1}{2\pi i}\int_a^b \frac{\gamma'(s)}{\gamma(s)-z_0}\,ds.
+\]
+In fact if $|z_1|<1$, $\gamma(t)=e^{it}$, $0\le t\le2\pi$: $\ind_{z=z_1}(\gamma)=1$.
+\end{example}
+
+\begin{proposition}
+If $\gamma$ is piecewise-$C^1$, $z_0\mapsto \ind_{z=z_0}(\gamma)$ is a continuous function on $\C\setminus R(\gamma)$.
+\end{proposition}
+\begin{proof}
+$\ind_{z_0}(\gamma) = \dfrac{1}{2\pi i}\int_a^b \dfrac{1}{\gamma(t)-z_0}\,dt$.
+If $\varepsilon>0$, then $\exists\delta>0$ s.t.\ if $|z_2-z_1|<\delta$, then $\left|\dfrac{1}{z-z_2}-\dfrac{1}{z-z_1}\right|<\varepsilon\ \forall z\in R(\gamma)$. So $\big|\ind_{z_2}(\gamma)-\ind_{z_1}(\gamma)\big| \le \dfrac{1}{2\pi} L(\gamma)\varepsilon$. We can choose $\delta$ so that this is arbitrarily small.
+\end{proof}
+
+\begin{corollary}
+$\ind_{z=z_0}(\gamma)$ is constant on each connected component of $\C\setminus R(\gamma)$.
+\end{corollary}
+
+\begin{proposition}
+$\ind_{z=z_0}(\gamma)=0$ for all points $z_0$ in the unbounded connected component of $\C\setminus R(\gamma)$.
+\end{proposition}
+\begin{proof}
+$\left|\frac{1}{2\pi i}\int_\gamma \frac{1}{z-z_0}\,dz\right| \le \frac{1}{2\pi}L(\gamma)\cdot \frac{1}{\mathrm{dist}(z_0,\gamma)} \to 0$ as $z_0\to\infty$. By the corollary, constant $0$.
+\end{proof}
+
+\begin{theorem}[Jordan Curve Theorem]
+If $\gamma:[a,b]\to\C$ is continuous, injective, and closed (with $\gamma(a)=\gamma(b)$), then $\C\setminus R(\gamma)$ has exactly $2$ connected components.
+\end{theorem}
+
+The proof of this theorem can be found in the appendix.
+
+\begin{definition}[Contour]
+A \emph{contour} is a formal sum $n_1\gamma_1 + n_2\gamma_2 + \dots + n_m\gamma_m$, $n_j\in\Z$, where $\gamma_j$ is a piecewise-$C^1$ closed curve. If $\Gamma = \sum_{j=1}^m n_j\gamma_j$ is a contour,
+\[
+\int_\Gamma f(z)\,dz = \sum_{j=1}^m n_j\int_{\gamma_j} f(z)\,dz.
+\]
+\emph{Winding number.} If $z_0$ is not on the contour, $\ind_\Gamma(z_0) = \sum_{j=1}^m n_j\,\ind_{\gamma_j}(z_0)$.
+\end{definition}
+
+\begin{example}
+$\Gamma = \gamma_2-\gamma_1$, two nested circles (opposite orientation): $\ind_\Gamma(z_0)=0$ if $z_0$ inside both or outside both, $\ind_\Gamma(z_1)=1$ if $z_1$ in the annular region.
+\end{example}
+
+\subsection{The Separation Lemma}
+
+\begin{definition}
+$\Gamma$ is \emph{simple} if the winding number at every point not on $\Gamma$ is either $0$ or $1$. The set of $z_0$ s.t.\ $\ind_\Gamma(z_0)\ne0$ is the \emph{inside} of $\Gamma$.
+\end{definition}
+
+\begin{lemma}[Separation Lemma]
+Suppose $G\subset\C$ is open, $K\subset G$ compact. Then there exists a simple contour $\Gamma$ s.t.\ $K \subset \mathrm{Int}(\Gamma) \subset G$.
+\end{lemma}
+\begin{proof}
+Since $K$ compact and $\C\setminus G$ closed, $\exists \delta>0$ s.t.\ $\forall z\in\C\setminus G$, $\mathrm{dist}(z,K) := \inf\{|z-w| : w\in K\} > \delta$.
+
+Consider a grid over $\C$ made up of squares with diameter $\delta/2$. Let $S_1,\dots,S_p$ be the squares that intersect $K$. Each square $S_j$ is contained in $G$, and has a natural interpretation as a piecewise-$C^1$ closed curve oriented CCW. Let $\mathcal E$ denote the set of edges of the squares that do not occur in another of these squares. Goal: there is a single contour $\Gamma$ s.t.\ each curve in $\Gamma$ is made up of some sequence of these edges, with each distinct edge appearing exactly once.
+
+Call $(E_1,\dots,E_N)$ a chain if the final point in $E_j$ is the initial point in $E_{j+1}$. If moreover the final point of $E_N$ is the initial point of $E_1$, it is a cycle.
+
+\emph{Note:} if $p$ is a corner point of the grid, the number of edges in $\mathcal E$ which $p$ is a terminal point of is the same as the number of edges in $\mathcal E$ that $p$ is an initial point of (kind of like a cycle in a graph, degree in = degree out). If $(E_1,\dots,E_N)$ is a chain but not a cycle, we can find (via this degree condition) some other distinct edge $E_{N+1}\in\mathcal E$ extending the chain. So every maximal chain in $\mathcal E$ is a cycle.
+
+Removing a cycle from $\mathcal E$ preserves this property; in this way we can choose cycles $\gamma_1,\dots,\gamma_k$ s.t.\ each edge from $\mathcal E$ occurs exactly once in the cycles. Set $\Gamma = \gamma_1+\dots+\gamma_k$.
+
+\textbf{Claim:} $K \subset \mathrm{Int}(\Gamma) \subset G$.
+
+\emph{Pf.} Note $\gamma_j\subset G$. If $z_0$ is an interior point of some square $S_j$, then $\frac{1}{2\pi i}\int_{\partial S_j} \frac{1}{z-z_0}\,dz=1$ and $\frac{1}{2\pi i}\int_{\partial S_{j'}}\frac{1}{z-z_0}\,dz=0$ for $S_{j'}\ne S_j$; so $\frac{1}{2\pi i}\sum_{k=1}^r\int_{S_k}\frac{1}{z-z_0}\,dz=1 = \frac{1}{2\pi i}\int_\Gamma \frac{1}{z-z_0}\,dz = \ind_\Gamma(z_0)$.
+
+If $z_0$ is on a boundary of a square, $z_0$ not on $\Gamma$: $\frac{1}{2\pi i}\int_\Gamma \frac{1}{z-z_0}\,dz=1$ by continuity.
+
+\emph{Recall:} $K\subset\mathrm{Int}(\Gamma)$: so if $z_0\in K$, $\ind_\Gamma(z_0)=1$. Also, if $z_0\notin G$: for the same reason (each square not containing $z_0$ contributes $0$), $\frac{1}{2\pi i}\int_{S_j}\frac{1}{z-z_0}\,dz=0\ \forall j \implies \frac{1}{2\pi i}\int_\Gamma\frac{1}{z-z_0}\,dz=0 \implies \ind_\Gamma(z_0)=0 \implies \mathrm{Int}(\Gamma)\subset G$.
+
+For the same reason, if $z_0\notin\Gamma$: $\frac{1}{2\pi i}\int_\Gamma \frac{1}{z-z_0}\,dz - \frac{1}{2\pi i}\sum_j \int_{S_j}\frac{1}{z-z_0}\,dz = \begin{cases}1 & z_0\in\mathrm{Int}(S_j)\\0 & z_0\notin K(\Gamma)\end{cases} \implies \Gamma$ simple.
+\end{proof}
+
+\begin{corollary}
+If $\Gamma$ is constructed as above, and $f:G\to\C$ holomorphic, then for $z_0\in K$,
+\[
+f(z_0) = \frac{1}{2\pi i}\int_\Gamma \frac{f(z)}{z-z_0}\,dz.
+\]
+\end{corollary}
+\begin{proof}
+$\int_{\partial S_j} f(z)\,dz=0$ since $f$ holomorphic on $G$, so $\int_\Gamma f(z)\,dz=0$.
+Fix $z_0\in K$, define $g(z) = \begin{cases} \dfrac{f(z)-f(z_0)}{z-z_0} & z\ne z_0\\ f'(z_0) & z=z_0\end{cases}$, holomorphic. $\int_\Gamma g(z)\,dz=0 = \int_\Gamma \dfrac{f(z)-f(z_0)}{z-z_0}\,dz = \int_\Gamma \dfrac{f(z)}{z-z_0}\,dz - f(z_0)\int_\Gamma \dfrac{1}{z-z_0}\,dz$, and since $z_0\in K$, $\int_\Gamma \frac{1}{z-z_0}\,dz = 2\pi i$, giving $f(z_0) = \dfrac{1}{2\pi i}\int_\Gamma \dfrac{f(z)}{z-z_0}\,dz$.
+\end{proof}
+
+\begin{theorem}[General Form of Cauchy's Theorem]
+If $G$ is an open set, $\Gamma$ a contour in $G$, $\mathrm{Int}(\Gamma)\subset G$, $f:G\to\C$ holomorphic, then $\int_\Gamma f(z)\,dz=0$.
+\end{theorem}
+\begin{proof}
+Set $K = \Gamma\cup\mathrm{Int}(\Gamma) \subset G$, so $K$ compact. By the separation lemma, there is a simple contour $\Gamma'$ s.t.\ $K\subset\mathrm{Int}(\Gamma')\subset G$.
+
+$f$ holomorphic $\implies$ if $z\in K$, then $f(z) = \dfrac{1}{2\pi i}\int_{\Gamma'} \dfrac{f(\zeta)}{\zeta-z}\,d\zeta$.
+\[
+\therefore \int_\Gamma f(z)\,dz = \frac{1}{2\pi i}\int_\Gamma\int_{\Gamma'} \frac{f(\zeta)}{\zeta-z}\,d\zeta\,dz.
+\]
+Since $\dfrac{f(\zeta)}{\zeta-z}$ is continuous on $\Gamma\times\Gamma'$ (since $\Gamma\subset\mathrm{Int}(\Gamma')$), we can exchange order of integration by Fubini's theorem:
+\[
+= \frac{1}{2\pi i}\int_{\Gamma'} f(\zeta)\left(\int_\Gamma \frac{1}{\zeta-z}\,dz\right)d\zeta = \frac{1}{2\pi i}\int_{\Gamma'} f(\zeta)\big(-2\pi i\,\ind_\Gamma(\zeta)\big)\,d\zeta = 0,
+\]
+since $\ind_\Gamma(\zeta)=0$ for $\zeta\in\Gamma'$, as $\zeta$ is on the exterior of $\Gamma$ (since $\Gamma\subset K \subset\mathrm{Int}(\Gamma')$).
+\end{proof}
+
+\begin{corollary}[Cauchy for Convex]
+Let $G\subset\C$ open convex, $\gamma$ piecewise-$C^1$ in $G$, $f:G\to\C$ holomorphic. Then $\mathrm{Int}(\gamma)\subset G \implies \int_\gamma f(z)\,dz=0$.
+\end{corollary}
+
+\begin{corollary}[Cauchy's Theorem for an Annulus, revisited]
+If $\Gamma$ is a contour with $\mathrm{Int}(\Gamma)\subset G$ (an annular region), $f:G\to\C$ holomorphic, then $\int_\Gamma f(z)\,dz=0$.
+\end{corollary}
+
+\begin{corollary}[General Cauchy's Formula]
+If $\Gamma$ is a simple contour with interior in $G$, and $f:G\to\C$ holomorphic, then
+\[
+f(z) = \frac{1}{2\pi i}\int_\Gamma \frac{f(\zeta)}{\zeta-z}\,d\zeta \qquad \forall z\in\mathrm{Int}(\Gamma).
+\]
+\end{corollary}
+
+\newpage
+\section{The Residue Theorem and its Consequences}
+
+\begin{definition}[Residue]
+Suppose $f$ is holomorphic with isolated singularity $z_0\in\C$, then $f=\sum_{n=-m}^\infty a_n(z-z_0)^n$ (Laurent series). The residue of $f$ at $z_0$ is $\res(f,z_0) := a_{-1}$.
+\end{definition}
+
+\begin{example}
+$e^{1/z}$ at $z_0=0$: $e^\omega = \sum_{n\ge0}\frac{1}{n!}\omega^n$, so $e^{1/z} = \sum_{n\ge0}\frac{1}{n!}z^{-n} \implies \res(e^{1/z},0)=1$.
+\end{example}
+
+\begin{example}
+$f(z)=\dfrac{z^3}{z-1}$ at $z=1$.
+
+\emph{Method 1:} $z^3 = (z-1+1)^3 = (z-1)^3+3(z-1)^2+3(z-1)+1$, so $f(z) = \dfrac{1}{z-1} + 3 + 3(z-1) + (z-1)^2$.
+
+\emph{Method 2:} let $\omega=z-1$: $f(z) = \dfrac{(\omega+1)^3}{\omega} = \dfrac{\omega^3+3\omega^2+3\omega+1}{\omega} = \omega^2+3\omega+3+\dfrac1\omega$.
+
+\emph{Method 3 (Lemma):} If $f$ has a simple pole at $z=z_0$, then $\res(f,z_0) = \lim_{z\to z_0} f(z)\cdot(z-z_0)$.
+\end{example}
+
+\begin{example}
+$f(z) = \dfrac{z^3}{(z-1)^3}$ at $z=1$: $\res(f,1) = 3$.
+
+Since $z^3 = (z-1)^3+3(z-1)^2+3(z-1)+1$,
+\[
+f(z) = 1 + \frac{3}{z-1} + \frac{3}{(z-1)^2} + \frac{1}{(z-1)^3}.
+\]
+\end{example}
+
+\begin{example}
+$f(z) = \dfrac{z^k}{(z-a)(z-b)^k}$, $k\ge0$, at $a,b$, $a\ne b$.
+
+At $z=a$: $\lim_{z\to a} f(z)(z-a) = \dfrac{a^k}{(a-b)^k} = \res(f,a)$.
+
+At $z=b$: let $g(z) = \dfrac{z^k}{z-a}$, so by Taylor expanding around $b$: $g(z) = g(b) + g'(b)(z-b) + \sum_{n\ge2} \dfrac{g^{(n)}(b)}{n!}(z-b)^n$, and
+\[
+f(z) = \frac{g(z)}{(z-b)^k} = \frac{g(b)}{(z-b)^k} + \frac{g'(b)}{z-b} + \sum_{n\ge2} \frac{g^{(n)}(b)}{n!}(z-b)^{n-k},
+\]
+so
+\[
+\res(f,b) = g'(b) = \frac{k b^{k-1}(b-a) - b^k}{(b-a)^2}.
+\]
+\emph{Method 2:} $z^k = (z-b+b)^k = \sum_{r=0}^k \binom{k}{r}(z-b)^{k-r}b^r$, and using $\dfrac{1}{1+x}=\sum_{n\ge0}(-1)^nx^n$,
+\[
+\frac{1}{z-a} = \frac{1}{b-a}\cdot\frac{1}{1+\frac{z-b}{b-a}} = \frac{1}{b-a}\sum_{n\ge0}\left(-\frac{z-b}{b-a}\right)^n.
+\]
+Multiplying:
+\[
+z^k\cdot\frac{1}{z-a} = \big(b^k+kb^{k-1}(z-b)+\dots\big)\left(\frac{1}{b-a} - \frac{1}{(b-a)^2}(z-b)+\dots\right) = \frac{b^k}{b-a} + \left(\frac{-b^k}{(b-a)^2}+\frac{kb^{k-1}}{b-a}\right)(z-b)+\dots,
+\]
+and the coefficient of $(z-b)$ above (which becomes the residue term after dividing by $(z-b)^k$) gives $\res(f,b) = \dfrac{-b^k}{(b-a)^2}+\dfrac{kb^{k-1}}{b-a}$, matching Method 1.
+\end{example}
+
+\begin{example}
+$f(z) = \dfrac{\sin z}{2z^2-5z+2} = \dfrac{\sin z}{(2z-1)(z-2)}$; singularities at $z=\frac12,2$.
+
+At $z=\frac12$: \emph{Method 1:} $\res(f,\tfrac12) = \dfrac{\sin(\tfrac12)}{(2z^2-5z+2)'|_{z=1/2}} = \dfrac{\sin(\tfrac12)}{-3}$, by A8 Q1.
+
+\emph{Method 2:} $\res(f,\tfrac12) = \lim_{z\to1/2} \dfrac{\sin z}{2(z+\tfrac12)(z-2)}\cdot(z-\tfrac12) = \dfrac{\sin\tfrac12}{2(-\tfrac32)} = \dfrac{\sin\tfrac12}{-3}$.
+
+At $z=2$: $\res(f,2) = \lim_{z\to2} \dfrac{\sin z}{(2z-1)(z-2)}\cdot(z-2) = \dfrac{\sin2}{3}$.
+\end{example}
+
+\begin{example}
+$f(z) = \dfrac{2z^2-5z+2}{\sin z}$, singularities at $z=k\pi$, $k\in\Z$.
+\[
+\res(f,k\pi) = \frac{2k^2\pi^2-5k\pi+2}{\cos k\pi} = (-1)^k(2k^2\pi^2-5k\pi+2).
+\]
+\end{example}
+
+\begin{theorem}[Residue Theorem]
+Let $f:G\to\C$ be holomorphic, $\Gamma$ a contour whose interior is in $G$ except at finitely many isolated singularities $z_1,\dots,z_p$. Then
+\[
+\int_\Gamma f(z)\,dz = 2\pi i\sum_{j=1}^p \ind_{z_j}(\Gamma)\cdot\res(f,z_j).
+\]
+\end{theorem}
+
+\begin{proof}
+Let $r>0$ s.t.\ if $C_{r,j}$ is the circle radius $r$ centred at $z_j$ oriented CCW, then $C_{r,j}$ and its interior lie in $\mathrm{Int}(\Gamma)$ and are disjoint. Consider $\Gamma_1 = \Gamma - \ind_{z_1}(\Gamma)C_{r,1} - \dots - \ind_{z_p}(\Gamma)C_{r,p}$. $\mathrm{Int}(\Gamma_1) \subset \mathrm{Int}(\Gamma)\setminus\{z_1,\dots,z_p\} \subset G$.
+By (the general form of) Cauchy's theorem, $\int_{\Gamma_1} f(z)\,dz=0$, so
+\[
+\int_\Gamma f(z)\,dz = \sum_{j=1}^p \ind_{z_j}(\Gamma)\int_{C_{r,j}} f(z)\,dz = 2\pi i\sum_{j=1}^p \ind_{z_j}(\Gamma)\,\res(f,z_j). \qedhere
+\]
+\end{proof}
+
+\begin{corollary}[General Cauchy's Formula]
+If $\Gamma$ is a simple contour with interior in $G$, and $f:G\to\C$ holomorphic, then $f(z) = \dfrac{1}{2\pi i}\int_\Gamma \dfrac{f(\zeta)}{\zeta-z}\,d\zeta$ for all $z\in\mathrm{Int}(\Gamma)$.
+\end{corollary}
+
+\begin{example}
+$\int_C \dfrac{1}{(z-1)^2(2z+1)^2(3z-1)}\,dz$, $C$ the circle $|z|=1$, CCW:
+\[
+\int_C f(z)\,dz = 2\pi i\big(\res(f,-\tfrac12) + \res(f,\tfrac13)\big) = \frac{-2\pi i}{5^3}.
+\]
+Observe: if $C_R$ is the circle of radius $R$, centre $0$:
+\[
+\int_{C_R} f(z)\,dz = 2\pi i\big(\res(f,-\tfrac12)+\res(f,2)+\res(f,\tfrac13)\big).
+\]
+However $\left|\int_{C_R} f(z)\,dz\right| \le 2\pi R\cdot \dfrac{1}{2^{-3}3^{-3}R^5} \to 0$, so $\int_C f(z)\,dz = -2\pi i\,\res(f,2)$.
+\end{example}
+
+\begin{example}[Dirichlet Integral]
+$\displaystyle\int_0^\infty \frac{\sin x}{x}\,dx$.
+
+Let $\Gamma_{\varepsilon,R}$ denote the closed contour in the upper half-plane consisting of the segment $[-R,-\varepsilon]$, the small semicircle $-\gamma_\varepsilon$ around $0$ (radius $\varepsilon$, clockwise), the segment $[\varepsilon,R]$, and the large semicircle $\gamma_R$ (radius $R$, counterclockwise). Recall we want:
+\[
+\int_{\Gamma_{\varepsilon,R}} \frac{e^{iz}}{z}\,dz = \underbrace{\int_{-\gamma_\varepsilon} \frac{e^{iz}}{z}\,dz}_{\approx\,-i\pi} + \underbrace{\int_{\gamma_R} \frac{e^{iz}}{z}\,dz}_{\approx\,0} + 2\int_\varepsilon^R \frac{\sin x}{x}\,dx.
+\]
+
+\emph{Note:} $\dfrac{e^{iz}-1}{z}$ has a removable singularity at $0$.
+$\therefore \displaystyle\lim_{\varepsilon\to0}\int_{-\gamma_\varepsilon} \frac{e^{iz}-1}{z}\,dz = 0$.
+
+So $\displaystyle\lim_{\varepsilon\to0}\int_{-\gamma_\varepsilon} \frac{e^{iz}}{z}\,dz = \lim_{\varepsilon\to0}\int_{-\gamma_\varepsilon} \frac1z\,dz$; let $\gamma_\varepsilon(t)=\varepsilon e^{it}$, $0\le t\le\pi$:
+\[
+= \lim_{\varepsilon\to0} -\int_0^\pi \frac{1}{\varepsilon e^{it}}\cdot i\varepsilon e^{it}\,dt = -i\pi.
+\]
+
+For $\gamma_R$:
+\[
+\left|\int_{\gamma_R} \frac{e^{iz}}{z}\,dz\right| \le \left|\int_0^\pi e^{i\gamma_R(t)}\,dt\right| \le \int_0^\pi e^{-\sin t\cdot R}\,dt.
+\]
+We have $\sin t \ge \dfrac2\pi t$ on $[0,\pi/2]$, so (using symmetry about $\pi/2$)
+\[
+\int_0^\pi e^{-R\sin t}\,dt = 2\int_0^{\pi/2} e^{-R\sin t}\,dt \le 2\int_0^{\pi/2} e^{-\frac{2R}{\pi}t}\,dt = \frac{\pi}{R}\left(1-e^{-R}\right) \to 0 \text{ as } R\to\infty.
+\]
+
+By Cauchy's Theorem, the interior of $\Gamma_{\varepsilon,R}$ contains no singularities of $e^{iz}/z$, so $\int_{\Gamma_{\varepsilon,R}} \frac{e^{iz}}{z}\,dz = 0$. Solving the boxed equation above for $\int_\varepsilon^R \frac{\sin x}{x}\,dx$ and taking real/imaginary parts:
+\[
+\int_\varepsilon^R \frac{\sin x}{x}\,dx \approx \mathrm{Im}\left(\frac12\int_{\Gamma_{\varepsilon,R}} \frac{e^{iz}}{z}\,dz + \frac{i\pi}{2}\right) = \mathrm{Im}\left(0 + \frac{i\pi}{2}\right).
+\]
+So
+\[
+\int_0^\infty \frac{\sin x}{x}\,dx = \frac{\pi}{2}. \qquad \blacksquare
+\]
+\end{example}
+
+\begin{example}
+$\displaystyle\int_0^\infty \frac{1}{1+x^a}\,dx$, $a>1$. Since $\dfrac{1}{1+x^a} \le \dfrac{1}{x^a}$, $\int_1^\infty \frac{1}{x^a}\,dx$ converges since $a>1$ ($p$-test).
+
+Let $f(z) = \dfrac{1}{1+z^a}$ where $z^a$ is a branch s.t.\ $1^a=1$, defined in the region $\left\{Re^{i\theta} : R>0, |\theta-\tfrac\pi a|<\pi\right\}$. Use a wedge (pie-slice) contour $\Gamma_{R,\varepsilon}$ from $\varepsilon$ to $R$ along the real axis, then along the arc of angle $\frac{2\pi}{a}$, then back to $\varepsilon$ along the ray at angle $\frac{2\pi}{a}$, then around the small arc near $0$.
+\[
+\left(1-e^{\frac{2\pi i}{a}}\right)\int_\varepsilon^R \frac{1}{1+x^a}\,dx = \int_{\Gamma_{R,\varepsilon}} \frac{1}{1+z^a}\,dz - \int_{\gamma_R} \frac{1}{1+z^a}\,dz - \int_{\gamma_\varepsilon} \frac{1}{1+z^a}\,dz,
+\]
+where $\gamma_R \le |\gamma_R|\cdot\dfrac{1}{1+R^a}$, going to $0$ as $R\to\infty$ (arc length $\sim \frac{2\pi}{a}R$, integrand $\sim R^{-a}$).
+
+So $\left(1-e^{\frac{2\pi i}{a}}\right)\int_0^\infty \frac{1}{1+x^a}\,dx = \frac{2\pi i}{a}\cdot\dfrac{1}{\left(1-\frac1a\right)}\cdot\left(-\res\right)$ where $z^a=-1 \implies z=e^{i\pi/a}$, i.e.\ the residue at $z_0=e^{i\pi/a}$.
+\end{example}
+
+\subsection{The Argument Principle and Rouch\'e's Theorem}
+
+\begin{theorem}[The Argument Principle]
+Let $G\subset\C$ and $\Gamma$ be a simple contour in $G$ s.t.\ $\mathrm{Int}(\Gamma)\subset G$ and let $f$ be a non-constant holomorphic function on $G$ with no zeros on $\Gamma$. Then
+\[
+\frac{1}{2\pi i}\int_\Gamma \frac{f'(z)}{f(z)}\,dz = \#\{\text{zeros of } f, \text{ counting multiplicity, contained in } \mathrm{Int}(\Gamma)\}.
+\]
+\end{theorem}
+
+\begin{proof}
+Since $G\setminus\mathrm{ext}(\Gamma) = \Gamma\cup\mathrm{Int}(\Gamma) \subset G$ is compact, we see $f$ admits only finitely many zeros in this set (identity theorem, $B-W$). Call these zeros $z_1,\dots,z_p$ with multiplicities $m_1,\dots,m_p$. Then $\dfrac{f'(z)}{f(z)}$ has residue $m_j$ at each $z_j$ (winding number $1$, since $\Gamma$ simple contour), and by the Residue Theorem,
+\[
+\int_\Gamma \frac{f'(z)}{f(z)}\,dz = 2\pi i \sum_{j=1}^p \res_{z_j}\left(\frac{f'}{f}\right) = 2\pi i \sum_{j=1}^p m_j. \qedhere
+\]
+\end{proof}
+
+\begin{proposition}
+Each $\res_{z_j}\left(\dfrac{f'}{f}\right) = m_j$, $j=1,\dots,p$.
+\end{proposition}
+
+\begin{theorem}[Rouch\'e's Theorem]
+Let $G\subset\C$, $K\subset G$ compact. Let $f,g$ each be holomorphic on $G$ with $|f(z)-g(z)| < |f(z)|$ for $z\in\partial K$. Then $f$ and $g$ have the same number of zeros (counting multiplicity) in $\mathrm{Int}(K)$.
+\end{theorem}
+
+\begin{remark}[Analogy]
+$z_0=$ tree in park, $f(z)=$ place of dog, $g(z)=$ place of dog owner with leash shorter than $\dots$: as the owner walks around the tree, both must circle the tree the same number of times.
+\end{remark}
+
+\begin{proof}
+Let $G_1 = K\cup\{z\in G : |f(z)-g(z)|<|f(z)|\}$; $G_1$ is open and contains $K$. By the Separation Lemma, there is a simple contour $\Gamma$ with $K\subset\mathrm{Int}(\Gamma)\subset G_1$, winding number $1$.
+
+For $0\le t\le1$, let $f_t = (1-t)f+tg$, so $f_0=f$, $f_1=g$. Let $m(t) = \#$ of zeros, counting multiplicity, of $f_t$ in $\mathrm{Int}(K)$.
+
+If $|f(z)-g(z)|<|f(z)|$: $|(1-t)f+tg| = |f+t(g-f)| \ge |f|-t|g-f| > |f|-|g-f| > 0$; so $f_t(z)\ne0$ on $\Gamma$. Hence by the argument principle we have
+\[
+m(t) = \frac{1}{2\pi i}\int_\Gamma \frac{f_t'(z)}{f_t(z)}\,dz.
+\]
+
+\emph{Exercise:} $m:[0,1]\to\Z$ is continuous, hence constant. (Hint: connectedness.)
+
+So $m(0)=m(1)$, i.e.\ $f$ and $g$ have the same number of zeros in $\mathrm{Int}(K)$.
+\end{proof}
+
+\newpage
+\section{Linear Fractional Transformations}
+
+\begin{definition}
+$\mathbb{RP}^1$ is the space of lines through the origin in $\R^2$. We call $\mathbb{RP}^1$ the \emph{real projective space}. If we map the line $\ell \in \mathbb{RP}^1$ to the point $q\in\R\cup\{\infty\}$ where $\ell$ intersects the line $x=1$ at $(1,q)$, this gives a bijection between $\mathbb{RP}^1$ and $\R\cup\{\infty\}$.
+\end{definition}
+
+\begin{definition}
+$\mathbb{CP}^1$ is the space of $1$-dimensional (with linear algebra) subspaces of $\C^2$. A $1$-d subspace is of the form $\left\{\binom{\lambda z_1}{\lambda z_2} : \lambda \in\C\right\}$, $(z_1,z_2)\ne(0,0)$. This intersects the set $\left\{\binom{z}{1} : z\in\C\right\}$ at $z_2^{-1}\cdot z_1$ (if $z_2\ne0$). In this way, we may identify $\mathbb{CP}^1$ with $\hat{\C} := \C\cup\{\infty\}$:
+\[
+\binom{z_1}{z_2} \mapsto \begin{cases} z_2^{-1}z_1 & z_2\ne0 \\ \infty & z_2=0.\end{cases}
+\]
+\end{definition}
+
+Suppose $T:\C^2\to\C^2$ is an invertible linear transformation. We then have an induced map $\varphi_T:\mathbb{CP}^1\to\mathbb{CP}^1$. $T$ has a matrix representation $\begin{bmatrix} a&b\\c&d\end{bmatrix}$, $a,b,c,d\in\C$, $ad-bc\ne0$. Then $\begin{bmatrix}a&b\\c&d\end{bmatrix}\binom{z}{1} = \binom{az+b}{cz+d} \implies \binom{a}{c}$, so $\varphi_T(z) = \dfrac{az+b}{cz+d}$.
+
+\begin{definition}[Linear Fractional Transformation]
+A \emph{linear fractional transformation} is a map on $\hat{\C}$ given by $\varphi(z) = \dfrac{az+b}{cz+d}$, where $ad-bc\ne0$.
+\end{definition}
+
+\begin{proposition}
+The set of linear fractional transformations forms a group $G$ under composition.
+\end{proposition}
+Also we have a surjective homomorphism from $GL_2(\C)$ to $G$.
+
+\emph{Note:} if $\varphi(z) = \dfrac{az+b}{cz+d}$ and $\varphi(0)=z$: $0 = \varphi(0)=\dfrac{b}{d} \implies b=0$; $\infty = \varphi(\infty) = \lim_{z\to\infty}\dfrac{az+b}{cz+d} = \dfrac{a}{c} \implies c=0$; $1 = \varphi(1) = \dfrac{a}{d}$, so $a=d$. So $\varphi \leftrightarrow \begin{bmatrix}a&0\\0&a\end{bmatrix}$, and $G \cong GL_2(\C)/(\C\setminus\{0\})I_2 = PSL_2(\C)$.
+
+\begin{proposition}
+If $\varphi$ is a linear fractional transformation and $\varphi$ is not the identity, then it has exactly $1$ or $2$ fixed points.
+\end{proposition}
+
+\begin{proof}
+If $\varphi(z) = \dfrac{az+b}{cz+d} = z$:
+
+\emph{Case $c\ne0$:} $\varphi(\infty)=\dfrac{a}{c}\ne\infty$, so $az+b=cz^2+dz \implies cz^2+(d-a)z-b=0$, a quadratic, so $1$ or $2$ distinct roots.
+
+\emph{Case $c=0$:} $\varphi(\infty)=\infty$, one fixed point. $az+b=dz \implies (a-d)z=b \implies$ one solution if $a\ne d$, or all $z$ (identity) if $a=d,b=0$ --- excluded. So $2$ in total.
+\end{proof}
+
+\begin{theorem}[Three-Transitivity of the M\"obius Group]
+If $z_1,z_2,z_3,w_1,w_2,w_3\in\hat{\C}$ s.t.\ $z_1,z_2,z_3$ are distinct and so are $w_1,w_2,w_3$, then there exists a unique linear fractional transformation $\varphi$ s.t.\ $\varphi(z_j)=w_j$, $j=1,2,3$.
+\end{theorem}
+
+\begin{proof}[Uniqueness]
+If $\varphi,\psi$ are two such maps, then $\psi^{-1}\circ\varphi$ is a linear fractional transformation fixing $z_1,z_2,z_3$, three distinct points, so it must be the identity (an LFT fixing $\ge3$ points is the identity, by the previous proposition), so $\psi=\varphi$.
+\end{proof}
+
+\begin{proof}[Existence]
+Suffices to find $\varphi$ with $\varphi(z_1)=\infty$, $\varphi(z_2)=0$, $\varphi(z_3)=1$ (in general, compose with the corresponding map for $w_1,w_2,w_3$ and take inverse).
+
+\emph{Case 1:} $z_1,z_2,z_3\in\C$. Take $\varphi(z) = \dfrac{(z-z_2)}{(z-z_1)}\cdot\dfrac{(z_3-z_1)}{(z_3-z_2)}$.
+
+\emph{Case 2:} $z_1=\infty$: $\varphi(z) = \dfrac{(z-z_2)}{(z_3-z_2)}$.
+
+\emph{Case 3:} $z_2=\infty$: $\varphi(z) = \dfrac{(z_3-z_1)}{(z-z_1)}$.
+
+\emph{Case 4:} $z_3=\infty$: $\varphi(z) = \dfrac{z-z_2}{z-z_1}$.
+\end{proof}
+
+\newpage
+\section{Harmonic Functions}
+
+\emph{Recall} the Cauchy-Riemann equations: $\dfrac{\partial u}{\partial x} = \dfrac{\partial v}{\partial y}$, $\dfrac{\partial u}{\partial y} = -\dfrac{\partial v}{\partial x}$ for $z=x+iy$, $u=\mathrm{Re}(f)$, $v=\mathrm{Im}(f)$, and $f' = \dfrac{\partial u}{\partial x} + i\dfrac{\partial v}{\partial x} = \dfrac{\partial v}{\partial y} - i\dfrac{\partial u}{\partial y}$.
+
+\begin{definition}[Harmonic Function]
+$G\subset\C\cong\R^2$ open. $f:G\to\C$ is called \emph{harmonic} if it is $C^2$ and second-order partials are continuous, and
+\[
+\frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} = 0 \qquad \text{(Laplace's equation).}
+\]
+\end{definition}
+
+\begin{remark}
+$f$ holomorphic $\iff$ $u=\mathrm{Re}(f)$, $v=\mathrm{Im}(f)$ harmonic (see below).
+\end{remark}
+
+\begin{example}
+$f(x,y)=x^2-y^2$, $g(x,y)=2xy$ are harmonic.
+\end{example}
+
+\begin{proposition}
+$f: G \to \C$ holomorphic $\implies f$ harmonic.
+\end{proposition}
+\begin{proof}
+Let $u=\mathrm{Re}(f)$, $v=\mathrm{Im}(f)$. Then
+\[
+\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = \frac{\partial}{\partial x}\frac{\partial v}{\partial y} - \frac{\partial}{\partial y}\frac{\partial v}{\partial x} = \frac{\partial^2 v}{\partial x\partial y} - \frac{\partial^2 v}{\partial y\partial x} = 0
+\]
+by the $C^2$ assumption (equality of mixed partials). Similarly for $v$.
+\end{proof}
+
+\begin{definition}[Harmonic Conjugate]
+Let $u:G\to\R$ be harmonic. Then $v:G\to\R$ is called a \emph{harmonic conjugate} of $u$ if $f(x+iy) = u(x,y)+iv(x,y)$ is holomorphic.
+\end{definition}
+
+\begin{theorem}
+If $G$ is simply connected, $u:G\to\R$ harmonic, then $u$ admits a harmonic conjugate.
+\end{theorem}
+
+\begin{proof}
+Consider $f = \dfrac{\partial u}{\partial x} - i\dfrac{\partial u}{\partial y}$. Since $u$ is $C^2$, one can verify the Cauchy-Riemann equations hold for $f$, so $f$ is holomorphic.
+
+Since $G$ simply connected, there exists $g$ s.t.\ $g'=f$. Fix $z_0\in G$, and (adding a constant) assume $g(z_0)=u(z_0)$ (initial value). Let $u_1 = \mathrm{Re}(g)$, $v_1=\mathrm{Im}(g)$, so
+\[
+g' = \frac{\partial u_1}{\partial x} + i\frac{\partial v_1}{\partial x} = \frac{\partial v_1}{\partial y} - i\frac{\partial u_1}{\partial y} \tag{1}
+\]
+and $g' = f = \dfrac{\partial u}{\partial x} - i\dfrac{\partial u}{\partial y}$ (2). Comparing real/imaginary parts of (1) and (2): $\dfrac{\partial u}{\partial x} = \dfrac{\partial u_1}{\partial x}$, $\dfrac{\partial u}{\partial y} = \dfrac{\partial u_1}{\partial y}$. With the initial values, we see $u=u_1$. Hence $v_1 = \mathrm{Im}(g)$ is a harmonic conjugate of $u$.
+\end{proof}
+
+\begin{example}
+Let $u(x,y) = \frac12\log(x^2+y^2)$, defined for $z=x+iy$, $0<|z|<R$. Then $\dfrac{\partial u}{\partial x} = \dfrac{x}{x^2+y^2}$, $\dfrac{\partial u}{\partial y} = \dfrac{y}{x^2+y^2} \implies \dfrac{\partial^2 u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}=0$ (verify by product rule).
+
+Suppose we build $f$ as in the proof: $f = \dfrac{\partial u}{\partial x} - i\dfrac{\partial u}{\partial y} = \dfrac{x-iy}{x^2+y^2} = \dfrac{\overline z}{z\overline z} = \dfrac1z$. But $\dfrac1z$ does not have a primitive on $B_R^*(0) := G$.
+\end{example}
+
+\begin{corollary}
+Let $G\subset\C$ open connected. Then $G$ is simply connected $\iff$ every harmonic function on $G$ has a harmonic conjugate.
+\end{corollary}
+\begin{proof}
+$(\Rightarrow)$ by the theorem.
+$(\Leftarrow)$ transport around the last example (consider $\frac12\log(x^2+y^2)$ for $z_0\notin G$).
+\end{proof}
+
+\begin{corollary}[Identity Theorem for Harmonic Functions]
+If $G$ open and connected, and harmonic functions $u$ and $v$ agree on a non-empty open subset of $G$, then $u=v$.
+\end{corollary}
+
+\begin{proof}
+Let $w=u-v \ge 0$; $w$ is real-valued. Let $H = \mathrm{int}(w^{-1}(\{0\}))$. By assumption this set is non-empty since $u,v$ agree on an open set $\ne\emptyset$.
+
+Suppose $z_0\in G\cap\partial H$. Choose $r>0$ s.t.\ $D:=\{z : |z-z_0|<r\}\subset G$. We can set $w=\mathrm{Re}(g)$ where $g$ is holomorphic on a simply connected neighbourhood of $D$.
+Since $D\cap H\ne\emptyset$, pick $D'\subset D$ s.t.\ $g|_{D'}=0$. So $g\equiv0$ on $D$ by the identity theorem for holomorphic functions. So $w=\mathrm{Re}(g)=0$ on $D$. But this contradicts the choice of $z_0$: hence $H=G$.
+
+\emph{Brief:} if $u=v$ on any subset with a limit point in $G$, then $u=v$ on $G$.
+\end{proof}
+
+\begin{corollary}[Mean Value Property for Harmonic Functions]
+If $G$ is a domain in $\C$ and $u$ harmonic on $G$, then for $z_0\in G$,
+\[
+u(z_0) = \frac{1}{2\pi}\int_0^{2\pi} u(z_0+re^{it})\,dt \qquad \text{for } 0<r<\mathrm{dist}(z_0,\C\setminus G).
+\]
+\end{corollary}
+\begin{proof}
+WLOG (by taking real parts) $u$ is real-valued. Then on any open disc containing $\{z:|z-z_0|\le r\}$, which is simply connected, $u=\mathrm{Re}(g)$ where $g$ holomorphic on $D$. $g(z_0) = \dfrac{1}{2\pi}\int_0^{2\pi} g(z_0+re^{it})\,dt$, and take real parts.
+\end{proof}
+
+\begin{exercise}
+For $u$ as above, $D=\{z : |z-z_0|\le r\}$, we have $u(z_0) = \dfrac{1}{\pi r^2}\int_D u(x,y)\,d(x,y)$. \emph{Hint:} use a change of variables (integrate the mean value property over $r$).
+\end{exercise}
+
+\begin{corollary}[Maximum Modulus Principle for Harmonic Functions]
+If $u$ is a non-constant real harmonic function on an open connected set, then $u$ admits no local maxima.
+\end{corollary}
+\begin{proof}
+Were $z_0$ a local maximum, then for small enough $r$, we would violate the mean value property.
+\end{proof}
+
+\newpage
+\section{Simple Connectivity and the Riemann Mapping Theorem}
+
+\begin{definition}
+$G\subset\C$ is \emph{simply connected} if it is connected and every closed curve is null-homotopic.
+\end{definition}
+
+\begin{definition}[Homotopy]
+Suppose $G\subset\C$ and $\gamma_0,\gamma_1:[0,1]\to G$ closed curves. We say $\gamma_0,\gamma_1$ are homotopic in $G$ if there exists a continuous function $\gamma:[0,1]\times[0,1]\to G$ s.t.
+\begin{enumerate}
+    \item[(1)] $\gamma(0,t) = \gamma_0(t)$, $t\in[0,1]$,
+    \item[(2)] $\gamma(1,t) = \gamma_1(t)$, $t\in[0,1]$,
+    \item[(3)] $\gamma(s,0)=\gamma(s,1)$, $s\in[0,1]$.
+\end{enumerate}
+A closed curve $\gamma:[0,1]\to G$ is \emph{null-homotopic} if it is homotopic to a constant curve.
+\end{definition}
+
+\begin{example}
+$G=\D$. $\gamma_0:[0,1]\to\D$ continuous, $\gamma_0(0)=\gamma_0(1)$. Define $\gamma:[0,1]\times[0,1]\to\D$ by $\gamma(s,t) = (1-s)\gamma_0(t)$, and $\gamma_1(t):=\gamma(1,t)=0$. So every closed curve is null-homotopic in $\D$.
+\end{example}
+
+\begin{example}
+$G=\C$, like $\gamma_0,\gamma_1,\gamma$ as in the $\D$ example.
+\end{example}
+
+Define $\tilde\gamma:[0,2]\to G$ by $\tilde\gamma|_{[0,1]}=\gamma$, $\tilde\gamma|_{[1,2]}(t)=\lambda(2-t)$. Then $\int_{\tilde\gamma} f(z)\,dz=0 = \int_\gamma f(z)\,dz - \int_\lambda f(z)\,dz$.
+
+If $g:G\to\C$ is holomorphic and $g'=f$: (use Cauchy for convex, applied piecewise along the homotopy segments.)
+
+\begin{theorem}[Characterizations of Simple Connectivity]
+Let $G\subset\C$ be non-empty, open, connected. TFAE:
+\begin{enumerate}
+    \item[(1)] $\hat{\C}\setminus G$ is connected.
+    \item[(2)] If $\Gamma$ is any contour in $G$, then $\mathrm{Int}(\Gamma)\subset G$.
+    \item[(3)] If $\Gamma$ is a contour in $G$, $f:\Gamma\to\C$ holomorphic, then $\int_\Gamma f(z)\,dz=0$.
+    \item[(4)] If $f:G\to\C\setminus\{0\}$ is any holomorphic function, then $f$ has a primitive (antiderivative).
+    \item[(5)] If $f:G\to\C\setminus\{0\}$ holomorphic, $\exists$ a branch of $\log f$, i.e.\ $\exists h:G\to\C$ holomorphic s.t.\ $e^{h(z)}=f(z)$, $z\in G$.
+    \item[(6)] $G$ is simply connected.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Using A9 Q4, we have $(6)\Rightarrow(5)$; that $(1)$--$(5)$ imply $(6)$ is an easy consequence of the theorem mapping.
+\end{remark}
+
+\begin{theorem}[Riemann Mapping Theorem]
+If $G\subset\C$ is a non-empty connected open set satisfying conditions $(1)$--$(5)$, then either $G=\C$ or there exists a holomorphic bijection (with holomorphic inverse) $\phi:G\to\D$.
+\end{theorem}
+
+\begin{exercise}
+By example with $\D$, we can compose $\phi,\phi^{-1}$ to decompose w/ $\phi,\phi^{-1}$ to get from $G\to\D$. DNE bijective holo $\C\to\D$ since it would be bounded entire, contradiction by Liouville.
+\end{exercise}
+
+\begin{proof}[Proof of the Theorem (implications)]
+
+\textbf{$(1)\Rightarrow(2)$:} If $\Gamma$ contour in $G$, then $\hat{\C}\setminus G \subset \hat{\C}\setminus\Gamma$. Since $\hat{\C}\setminus G$ connected, it lies in a connected component of $\hat{\C}\setminus\Gamma$. Since $\infty\in\hat{\C}\setminus G$, $\hat{\C}\setminus G$ is in the unbounded connected component of $\hat{\C}\setminus\Gamma$. So if $z\in\hat{\C}\setminus G$, $\ind_\Gamma(z)=0$, so $\mathrm{Int}(\Gamma)\subset G$.
+
+\textbf{$(2)\Rightarrow(3)$:} Cauchy's theorem.
+
+\textbf{$(3)\Rightarrow(4)$:} Suppose $f:G\to\C\setminus\{0\}$ holomorphic. Set $g(z) = \dfrac{f'(z)}{f(z)}$, holomorphic since $f(z)\ne0$. Let $h$ be a primitive for $g$. Fix $z_0\in G$; for $z\in G$, choose a piecewise-$C^1$ curve $\gamma:[0,1]\to G$ s.t.\ $\gamma(0)=z_0$, $\gamma(1)=z$. Set $g(z) := \int_\gamma f(\zeta)\,d\zeta$.
+
+\emph{Note:} if $\gamma,\lambda:[0,1]\to G$ piecewise-$C^1$, $\gamma(1)=\lambda(1)=z$, $\gamma(0)=\lambda(0)=z_0$, then $\int_\gamma f\,d\zeta = \int_\lambda f\,d\zeta$ by (3), so $g$ well-defined and holomorphic with $g'=f$ (by the same argument as Cauchy's theorem for convex sets applied along the path).
+
+\textbf{$(4)\Rightarrow(5)$:} Suppose $f:G\to\C\setminus\{0\}$ holomorphic. Set $g(z) = \dfrac{f'(z)}{f(z)}$, holomorphic since $f(z)\ne0$. Let $h$ be a primitive of $g$, so $h'=g=f'/f$.
+\[
+\left(fe^{-h}\right)' = f'e^{-h} - fe^{-h}h' = f'e^{-h}-fe^{-h}\cdot\frac{f'}{f} = 0 \implies fe^{-h}\equiv c.
+\]
+Fix $z_0\in G$, choose $c\in\C$ s.t.\ $e^c=f(z_0)$. We may assume $h(z_0)=c$ (adding a constant). Then $f(z_0)e^{-h(z_0)} = e^ce^{-c}=1$, so $f\cdot e^{-h}\equiv1$, i.e.\ $f\equiv e^h$.
+
+\textbf{$(4)\Rightarrow(1)$:} Suppose $(4)$ holds. Fix $\Gamma$ contour in $G$.
+
+Suppose $f:G\to\C$ holomorphic and $g'=f$, $g$ holomorphic. Fix $z_0\in G$, we need to show $\ind_\Gamma(z_0)=0$ for $z_0\notin G$. $\ind_\Gamma(z_0) = \dfrac{1}{2\pi i}\int_\Gamma \dfrac{1}{\zeta-z_0}\,d\zeta$.
+
+Note the map $f(z) = \dfrac{1}{z-z_0}$ does not vanish on $G$; so there is $g$ holomorphic in $G$ s.t.\ $g'(z) = \dfrac{1}{z-z_0}$. Then $\dfrac{1}{2\pi i}\int_\Gamma \dfrac{1}{\zeta-z_0}\,d\zeta = 0$ by FTC.
+
+\textbf{$(1)\Rightarrow(4)\Rightarrow(1)$ (contrapositive of the other direction), $(4)\Rightarrow(1)$:} Suppose $\hat{\C}\setminus G$ is not connected, then $\hat{\C}\setminus G = K\sqcup L$, $K,L$ closed disjoint non-empty. WLOG $\infty\in L$. Set $H=\hat{\C}\setminus L = G\cup K$, open. $K$ closed and bounded (b/c $\infty\in L$) $\implies$ compact and $K\subset H$. By the Separation Lemma, $\exists$ a simple contour $\Gamma$ in $H$ s.t.\ $K\subset\mathrm{Int}(\Gamma)$. Note $\Gamma$ is in $H\setminus K = G$. So $K\cap G = \emptyset \implies K \subset \mathrm{Int}(\Gamma) \implies \mathrm{Int}(\Gamma)\not\subset G$.
+\end{proof}
+
+\newpage
+\appendix
+
+
+\section{Proof of the Jordan Curve Theorem}
+
+\begin{definition}
+A \emph{Jordan curve} is the image of a continuous function $\phi:\partial\D\to\C$ s.t.\ $\phi$ is $1$-$1$ (injective). A \emph{Jordan arc} is the image of an injective continuous function $\phi:[0,1]\to\C$.
+\end{definition}
+
+\begin{theorem}[Jordan Curve Theorem]
+If $C$ is a Jordan curve, then $\C\setminus C$ has exactly one bounded connected component.
+\end{theorem}
+
+\begin{remark}
+It is difficult to prove w/o some curve or not piecewise-$C^1$, an $H$ hard to picture/draw.
+\end{remark}
+
+\begin{theorem}
+If $\overline B\subset\C$, $f_n:\overline B\to\C$ continuous s.t.\ $f_n$ converges uniformly on compact sets to a function $f$, then $f$ is continuous. ($3$-$\varepsilon$ proof.)
+\end{theorem}
+\begin{proof}
+Fix $z_0\in\overline B$, $\varepsilon>0$, some $f_N \to f$ uniformly on $\overline{B(z_0,r-\varepsilon)}$ for $z\in\overline B$. Since $f_N$ continuous, $\exists\delta>0$ s.t.\ if $|z-z_0|<\delta$, then $|f_N(z)-f_N(z_0)|<\varepsilon/3$. So
+\[
+|f(z)-f(z_0)| \le |f(z)-f_N(z)| + |f_N(z)-f_N(z_0)| + |f_N(z_0)-f(z_0)| < 3\cdot\frac\varepsilon3 = \varepsilon. \qedhere
+\]
+\end{proof}
+
+\begin{theorem}
+If $K\subset\C$ compact, $f:K\to\C$ continuous, then $f(K)$ compact.
+\end{theorem}
+\begin{proof}
+See standard references (take an open cover of $f(K)$, pull back and reduce to a finite subcover $\implies$ image of finite union).
+\end{proof}
+
+\begin{corollary}
+If $L,K\subset\C$ compact, $f:K\to L$ continuous bijection, then $f^{-1}:L\to K$ is continuous.
+\end{corollary}
+\begin{proof}
+We need to show if $O\subset K$ open (subspace topology), then so is $f(O)$ open in $L$: $f(O)^c = f(K\setminus O)$. Note $K\setminus O$ is compact, so $f(K\setminus O)$ is compact, hence $f(O) = L\setminus f(K\setminus O)$ is open in $L$.
+\end{proof}
+
+\begin{theorem}[Tietze Extension Theorem]
+If $K\subset\C$ is compact and $f:K\to[0,1]$ is continuous, then there exists $F:\C\to[0,1]$ continuous s.t.\ $F(z)=f(z)$ for all $z\in K$.
+\end{theorem}
+\begin{proof}[Proof idea]
+Define continuous functions $g_k:\C\to[0,1]$, $k\ge0$, s.t.\ $\left|f(z) - \sum_{k=0}^n \dfrac{2^k}{3^{n+1}}g_k(z)\right| \in \left[0,\left(\dfrac23\right)^n\right]$ for $z\in K$, so that $\sum_{k\ge0} \dfrac{2^k}{3^{k+1}}g_k(z)$ converges uniformly and defines $F(z) := \sum_{k\ge0}\dfrac{2^k}{3^{k+1}}g_k(z)$, continuous, with $F|_K=f$.
+
+We construct $g_k$ by induction. \emph{Base case, $g_0$:} Set $A=f^{-1}\left(\left[0,\tfrac13\right]\right)$, $B=f^{-1}\left(\left[\tfrac23,1\right]\right)$, both compact. If $A=\emptyset$, set $g_0\equiv1$; if $B=\emptyset$, set $g_0\equiv0$. Otherwise, let $S = \inf_{a\in A} \mathrm{dist}(a,B)$; set $h_S(t) = \begin{cases} 1-\tfrac{1}{S}t & t\in[0,S]\\ 0 & t\ge S\end{cases}$ (a Urysohn-style ramp function; $S>0$ by compactness), and set $g_0(z) = h_S(\mathrm{dist}(z,B))$.
+
+\emph{Induction step:} set $f_n(z) = f(z) - \sum_{k=0}^n \dfrac{2^k}{3^{k+1}}g_k(z)$ for $z\in K$ (given $g_0,\dots,g_n$ constructed). $f_n:K\to\left[0,\left(\tfrac23\right)^n\right]$ continuous. Set $A=f_n^{-1}\left(\left[0,\tfrac13\left(\tfrac23\right)^n\right]\right)$, $B=f_n^{-1}\left(\left[\tfrac23\left(\tfrac23\right)^n,\left(\tfrac23\right)^n\right]\right)$, disjoint compact; construct $g_{n+1}$ via Urysohn's lemma as before so that $g_{n+1}:\C\to[0,1]$, $g_{n+1}|_A\equiv1$, $g_{n+1}|_B\equiv0$.
+\end{proof}
+
+\begin{theorem}[Corollary]
+If $A\subset\C$ is a Jordan arc, then there exists a retraction $r:\C\to A$ continuous s.t.\ $r|_A = \mathrm{identity}$.
+\end{theorem}
+\begin{proof}
+$A=\phi([0,1])$, $\phi$ continuous $1$-$1$, $\phi:[0,1]\to\C$. By the corollary on preceding page, $\phi^{-1}:A\to[0,1]$ continuous. By Tietze, $\exists F:\C\to[0,1]$ continuous s.t.\ $F|_A \equiv \phi^{-1}$. Set $r(z) = \phi\circ F(z)$, continuous, being a composition of continuous functions, and if $z\in A$, $r(z) = \phi(F(\phi^{-1}(z))) = z$.
+\end{proof}
+
+\begin{theorem}
+There does not exist $r:\C\to\partial\D$ continuous s.t.\ $r(z)=z$ for $z\in\partial\D$.
+\end{theorem}
+\begin{proof}[Proof idea]
+Assignment.
+\end{proof}
+
+\begin{lemma}
+Suppose $J$ is a Jordan curve and $U$ is a bounded connected component of $\C\setminus J$. Then $\partial U = J$ (where $\partial U = \overline U\setminus U$).
+\end{lemma}
+
+\begin{proof}
+Fix $0\in U$ and let $D$ denote the closed disc with some radius $R$ centre $0$ s.t.\ the curve $J$ is in the interior of $D$.
+
+If $V$ is any other connected component of $\C\setminus J$, $V^c$ is closed and $U\subset V^c \implies \partial U \subset \overline U \subset V^c$. So $\partial U \subset J$.
+
+Suppose $J\ne\partial U$, $\phi:\partial\D\to J$ (parametrizing the Jordan curve). Then $\exists z_0\in\partial\D$ s.t.\ $\phi(z_0)\notin\partial U$. So $\exists c>0$ s.t.\ if $|z-z_0|<c$, $\phi(z)\notin\partial U$. This means $\phi$-image near $z_0$ is contained in a Jordan arc $A$ (removing that small piece of $J$).
+
+Since $A$ is a retract of $\C$, i.e.\ $r:\C\to A$ continuous s.t.\ $r|_A=\mathrm{id}$. Define $g:D\to D\setminus\{0\}$ by $g(z) = \begin{cases} r(z) & z\notin U \\ z_0 & z\in U^c \end{cases}$ ($g$ continuous because $z_0\in\partial U$).
+
+$g$ is continuous, because $z_0\in\partial U$. And $r\circ g: D \to \partial D$ is a retraction, a contradiction since we cannot have such a retract onto $\partial D$.
+
+$\therefore J\subseteq\partial U$.
+\end{proof}
+
+\begin{theorem}[Jordan Curve Theorem]
+If $J\subset\C$ is a Jordan curve, then there exists a unique bounded connected component of $\C\setminus J$.
+\end{theorem}
+
+\begin{proof}
+Fix a Jordan curve $J\subset\C$. Let $\mathrm{diam}(J) = \sup_{a,b\in J} |a-b|$; by compactness, $\exists a,b\in J$ s.t.\ $|a-b| = \mathrm{diam}(J)$. Note that translation, rotation, stretching does not affect the number of connected components. Thus WLOG we can envision the picture with $a=-1$, $b=1$.
+
+By pairing the theorem, both $A$ and $B$ intersect the line $[-2i,2i]$. Let $n$ denote the point on $[-2i,2i]\cap(A\cup B)$ with the largest imaginary component. We may assume $n\in A$ (adjusting labelling of arcs if necessary). Let $m$ be the point on $[-2i,2i]\cap A$ with smallest imaginary component; notice $n=m$ is possible.
+
+We also claim $B$ intersects $[-2i,n]$, since otherwise, we would have $B\cap([-2i,n]\cup A_0\cup[n,2i]) = \emptyset$, contradicting THM A (the previous lemma, $\partial U = J$).
+
+Let $p$ be the point on $[-2i,m]\cap B$ with the largest imaginary component, and $q$ be the point ``similarly'' (with the smallest imaginary component on the same intersection). Let $B_0$ be the segment of $B$ from $p$ to $q$ (similar to $A,A_0$).
+
+$m$ cannot equal $p$, so pick $z_0\in(p,m)$. Let $U$ be the connected component of $\C\setminus J$ s.t.\ $z_0\in\overline U$.
+
+\textbf{Claim:} $U$ is bounded. If not, there is a path from $z_0$ to the boundary of our square inside of $U$, call it $\gamma_0$. We'll assume it intersects $\partial U$ with $\mathrm{Im}(w)<0$ (WLOG by symmetry; the shortest such path). However, if we take the path (the shortest) from $-2i$ to $w$ that goes along the boundary of the square, then $w\cup\gamma_0\cup[2i,m]\cup A_0\cup[n,2i]$ defines a path that does not intersect $B$, contradicting that $\gamma_0$ must intersect $B$. $\implies U$ is bounded.
+
+Suppose $V$ is a bounded connected component of $\C\setminus J$ s.t.\ $V\ne U$. Note $V$ lies in our square (since $\C\setminus J$ unbdd is outside the square). Consider the curve $[-2i,q]\cup B_0\cup[p,n]\cup A_0\cup[n,2i] := \gamma^{-1}$: this curve does not intersect $V$.
+
+Since this curve is a closed set, $\exists \delta>0$ s.t.\ no point $z$ on this curve satisfies $|z-a_0|<\delta$ or $|z-b_0|<\delta$ (for the two ``far'' boundary points $a_0,b_0\in V$). Since $\partial V = J$, $\exists a_0\in V$ s.t.\ $|a_0-a|<\delta$, and $b_0\in V$ s.t.\ $|b_0-b|<\delta$.
+
+Now let $\lambda'$ by $[-2i,a_0]\cup\lambda_0\cup[b_0,2i]$ where $\lambda_0$ is a path in $V$ from $a_0$ to $b_0$. Then $\lambda'$ and $\gamma^{-1}$ are disjoint --- contradicting our previous theorem (the pairing theorem). Hence $U$ is the unique bounded connected component.
+\end{proof}
+
+\end{document}

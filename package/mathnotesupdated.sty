@@ -1,0 +1,227 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mathnotesstyle}[2026/01/06 Personal math style]
+
+%\begin{} Packages, Macros, Environment Setup
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{amsmath, amssymb, amsfonts, amsthm, enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[svgnames]{xcolor}
+\usepackage{totcount}
+\usepackage{xparse}
+\usepackage{etoolbox}
+\usepackage{varwidth}
+\usepackage{anyfontsize}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[colorlinks=true, linkcolor=Blue, urlcolor=NavyBlue]{hyperref}
+
+%% commands
+%% useful macros [add to them as needed]
+% sets
+\newcommand{\C}{{\mathbb{C}}} 
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\D}{{\mathbb{D}}}
+
+% bases
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mO}{\mathcal{O}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\mS}{\mathcal{S}}
+\newcommand{\mT}{\mathcal{T}}
+
+% linear algebra
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\adj}{\operatorname{adj}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\spn}{\operatorname{Span}}
+\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\prp}{\operatorname{perp}}
+\newcommand{\refl}{\operatorname{refl}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\nul}{\operatorname{Null}}
+\newcommand{\nully}{\operatorname{nullity}}
+\newcommand{\range}{\operatorname{Range}}
+\renewcommand{\ker}{\operatorname{Ker}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\cof}{\operatorname{cof}}
+\newcommand{\Num}{\operatorname{Num}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\ch}{\operatorname{ch}}
+\newcommand{\ipb}{\langle \thinspace, \rangle}
+\newcommand{\ip}[2]{\langle #1, #2\rangle} % inner products
+\newcommand{\M}[2]{M_{#1\times #2}(\F)}
+\newcommand{\RREF}{\operatorname{RREF}}
+\newcommand{\cv}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newenvironment{amatrix}[1]{\left[\begin{array}{@{}*{\numexpr#1-1}{c}|c@{}}}{\end{array}\right]}
+\newcommand{\am}[2]{\begin{amatrix}{#1} #2 \end{amatrix}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\hdivider}{\par\medskip\noindent\rule{\linewidth}{0.4pt}\medskip\par}
+% vectors
+\newcommand{\vzero}{\vv{0}}
+\newcommand{\va}{\vv{a}}
+\newcommand{\vb}{\vv{b}}
+\newcommand{\vc}{\vv{c}}
+\newcommand{\vd}{\vv{d}}
+\newcommand{\ve}{\vv{e}}
+\newcommand{\vf}{\vv{f}}
+\newcommand{\vg}{\vv{g}}
+\newcommand{\vh}{\vv{h}}
+\newcommand{\vl}{\vv{\ell}}
+\newcommand{\vm}{\vv{m}}
+\newcommand{\vn}{\vv{n}}
+\newcommand{\vp}{\vv{p}}
+\newcommand{\vq}{\vv{q}}
+\newcommand{\vr}{\vv{r}}
+\newcommand{\vs}{\vv{s}}
+\newcommand{\vt}{\vv{t}}
+\newcommand{\vu}{\vv{u}}
+\newcommand{\vvv}{{\vv{v}}}
+\newcommand{\vw}{\vv{w}}
+\newcommand{\vx}{\vv{x}}
+\newcommand{\vy}{\vv{y}}
+\newcommand{\vz}{\vv{z}}
+
+% display
+\newcommand{\ds}{\displaystyle}
+\newcommand{\qand}{\quad\text{and}}
+\newcommand{\qandq}{\quad\text{and}\quad}
+\newcommand{\hint}{\textbf{Hint: }}
+
+% misc
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\rc}{\red{\checkmark}}
+
+% complex analysis
+\newcommand{\res}{\operatorname{res}}
+\newcommand{\ind}{\operatorname{Ind}}
+
+% Custom theorem styles using amsthm (colored bold text, no boxes)
+\colorlet{defcolor}{DarkGoldenrod}
+\colorlet{thmcolor}{MediumBlue}
+\colorlet{excolor}{MediumVioletRed}
+\colorlet{egcolor}{ForestGreen}
+\colorlet{rmkcolor}{Indigo}
+
+\newtheoremstyle{coloreddef}%
+  {3pt}{3pt}%
+  {\normalfont}%
+  {}%
+  {\color{defcolor}\bfseries}%
+  {.}%
+  {.5em}%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\newtheoremstyle{coloredthm}%
+  {3pt}{3pt}%
+  {\itshape}%
+  {}%
+  {\color{thmcolor}\bfseries}%
+  {.}%
+  {.5em}%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\newtheoremstyle{coloredex}%
+  {3pt}{3pt}%
+  {\normalfont}%
+  {}%
+  {\color{excolor}\bfseries}%
+  {.}%
+  {.5em}%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\newtheoremstyle{coloredeg}%
+  {3pt}{3pt}%
+  {\normalfont}%
+  {}%
+  {\color{egcolor}\bfseries}%
+  {.}%
+  {.5em}%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\newtheoremstyle{coloredrmk}%
+  {3pt}{3pt}%
+  {\normalfont}%
+  {}%
+  {\color{rmkcolor}\bfseries}%
+  {.}%
+  {.5em}%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\theoremstyle{coloreddef}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{coloredthm}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{lemma}[definition]{Lemma}
+
+\theoremstyle{coloredex}
+\newtheorem{exercise}[definition]{Exercise}
+
+\theoremstyle{coloredeg}
+\newtheorem{example}[definition]{Example}
+
+\theoremstyle{coloredrmk}
+\newtheorem{remark}[definition]{Remark}
+
+% Backwards-compatibility aliases for former box environment names
+\newenvironment{definitionbox}[2][]{\begin{definition}[#2]}{\end{definition}}
+\newenvironment{theorembox}[2][]{\begin{theorem}[#2]}{\end{theorem}}
+\newenvironment{propbox}[2][]{\begin{proposition}[#2]}{\end{proposition}}
+\newenvironment{lemmabox}[2][]{\begin{lemma}[#2]}{\end{lemma}}
+\newenvironment{exercisebox}[2][]{\begin{exercise}[#2]}{\end{exercise}}
+\newenvironment{examplebox}[2][]{\begin{example}[#2]}{\end{example}}
+\newenvironment{remarkbox}[2][]{\begin{remark}[#2]}{\end{remark}}
+
+% Custom quote environment for textbook/author quotes
+\colorlet{quotebarcolor}{SteelBlue}
+\newenvironment{textquote}[1][]{%
+  \par\medskip
+  \noindent
+  \begin{list}{}{%
+    \setlength{\leftmargin}{1.5em}%
+    \setlength{\rightmargin}{0pt}%
+  }%
+  \item\relax
+  \color{Gray}%
+  \ifstrempty{#1}{}{\textbf{\color{quotebarcolor}#1}\par\smallskip}%
+  \itshape
+}{%
+  \end{list}%
+  \medskip
+}
+
+% remove indent
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all headers/footers
+
+% Define how section and subsection titles get written to marks
+\renewcommand{\sectionmark}[1]{\markboth{\thesection\quad #1}{}}
+% \renewcommand{\subsectionmark}[1]{\markright{\thesubsection\quad #1}}
+
+% Put section (left) and subsection (right) in header:
+\fancyhead[L]{\leftmark}
+% \fancyhead[R]{\rightmark}
+
+\fancyfoot[C]{\thepage}
